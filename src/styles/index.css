@@ -9,7 +9,12 @@
 
 html, body
 {
-	min-height: 100%;
+	height: 100%;
+}
+
+#root
+{
+	height: 100%;
 }
 
 a
@@ -20,4 +25,9 @@ a
 li
 {
 	list-style: none;
+}
+
+img
+{
+	height: 100%;
 }
