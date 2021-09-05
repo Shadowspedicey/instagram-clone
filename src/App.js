@@ -1,12 +1,14 @@
 import { useEffect } from "react";
-import { Route } from "react-router";
+import { Route, Switch } from "react-router";
 import { auth } from "./firebase";
 import { onAuthStateChanged, signOut } from "@firebase/auth";
 import { useDispatch, useSelector } from "react-redux";
 import { stopLoading } from "./state/actions/isLoading";
 import { setUser } from "./state/actions/currentUser";
 import LoadingPage from "./components/LoadingPage";
+import SignUpPage from "./components/SignUpPage";
 import LoginPage from "./components/LoginPage";
+import AccountVerification from "./components/AccountVerification";
 import Logged from "./components/Logged";
 import "./styles/App.css";
 
@@ -32,20 +34,27 @@ const App = () =>
 			}
 		});
 	};
-	useEffect(() => signOut(auth), []);
+	//useEffect(() => signOut(auth), []);
 	useEffect(checkIfLoggedIn, [dispatch]);
 
 	return (
 		<div className="App">
-			<Route exact path="/">
-				{
-					isLoading
-						? <LoadingPage/>
-						: isLoggedIn
+			{
+				isLoading
+					? <Route path="/" component={LoadingPage}></Route>
+					: null
+			}
+			<Switch>
+				<Route exact path="/">
+					{
+						isLoggedIn
 							? <Logged/>
 							: <LoginPage/>
-				}
-			</Route>
+					}
+				</Route>
+				<Route exact path="/accounts/email-signup" component={SignUpPage}></Route>
+				<Route path="/accounts/verify" component={AccountVerification}></Route>
+			</Switch>
 		</div>
 	);
 };

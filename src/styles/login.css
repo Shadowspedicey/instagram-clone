@@ -1,4 +1,4 @@
-#login-window
+#login-window, #signup-window
 {
 	width: 420px;
 	height: 400px;
@@ -12,12 +12,12 @@
 	margin-bottom: 1rem;
 }
 
-#login-window .logo
+#login-window .logo, #signup-window .logo
 {
 	height: 75px;
 }
 
-#login-window .info
+#login-window .info, #signup-window .info
 {
 	width: 65.5%;
 
@@ -25,13 +25,13 @@
 	flex-direction: column;
 }
 
-#login-window .info input
+#login-window .info input, #signup-window .info input
 {
 	padding: 0.5rem;
 	margin: 0.125rem 0;
 }
 
-#login-window .info #login
+#login-window .info #login, #signup-window .info #signup
 {
 	background-color: #ce0000;
 
@@ -45,7 +45,7 @@
 	border-radius: 5px;
 }
 
-#login-window-create
+#login-page .extra, #signup-page .extra
 {
 	width: 420px;
 	height: 100px;
@@ -56,8 +56,78 @@
 	align-items: center;
 }
 
-#login-page .signup
+.extra .button
 {
 	color: #ce0000;
 	font-weight: bold;
 }
+
+#email-verification-window
+{
+	width: 850px;
+	height: 500px;
+	background-color: white;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+
+	padding: 5rem 0;
+}
+
+#email-verification-window .icon
+{
+	height: 150px;
+}
+
+#email-verification-window .header
+{
+	font-size: 2em;
+	font-weight: bold;
+}
+
+#email-verification-window p
+{
+	font-size: 1.125em;
+
+	position: relative;
+	bottom: 1rem;
+}
+
+.verification-window
+{
+	width: 750px;
+	height: 500px;
+	background-color: white;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+
+	padding: 2.5rem 0;
+}
+
+.verification-window .icon
+{
+	height: 200px;
+}
+
+.verification-window .text-div
+{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	position: relative;
+	bottom: 50px;
+}
+
+.verification-window p
+{
+	font-size: 1.25em;
+
+	margin-top: 4rem;
+}
+

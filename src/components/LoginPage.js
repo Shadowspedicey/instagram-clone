@@ -12,7 +12,7 @@ const LoginPage = () =>
 {
 	const emailRef = useRef();
 	const passwordRef = useRef();
-	const dipsatch = useDispatch();
+	const dispatch = useDispatch();
 
 	const [isInfoValid, setInfoValid] = useState(false);
 
@@ -43,13 +43,13 @@ const LoginPage = () =>
 		if (!isInfoValid) return e.preventDefault();
 		try
 		{
-			dipsatch(startLoading());
-			const user = await signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value);
-			dipsatch(stopLoading());
-			dipsatch(setUser(user));
+			dispatch(startLoading());
+			const user = await signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value).then(data => data.user);
+			dispatch(stopLoading());
+			dispatch(setUser(user));
 		} catch (err)
 		{
-			console.error(err);
+			console.error("Error with login", err);
 		}
 		e.preventDefault();
 	};
@@ -59,13 +59,13 @@ const LoginPage = () =>
 			<div id="login-window" className="outlined">
 				<div className="logo"><img src={nameLogo} alt="Instadicey logo"></img></div>
 				<form className="info" onSubmit={handleSubmit}>
-					<input placeholder="Email" id="email" ref={emailRef} onChange={checkForm}></input>
+					<input type="text" placeholder="Email" id="email" ref={emailRef} onChange={checkForm}></input>
 					<input type="password" placeholder="Password" id="password" ref={passwordRef} onChange={checkForm}></input>
 					<button id="login" className={`${isInfoValid ? null : "disabled"}`}>Log In</button>
 				</form>
 				<Link to="accounts/password-reset">Forgot password?</Link>
 			</div>
-			<div id="login-window-create" className="outlined"><span>Don't have an account? <Link to="accounts/create-email" className="signup">Sign Up</Link></span></div>
+			<div className="extra outlined"><span>Don't have an account? <Link to="accounts/email-signup" className="button">Sign Up</Link></span></div>
 		</div>
 	);
 };
