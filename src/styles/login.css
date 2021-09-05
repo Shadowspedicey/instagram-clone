@@ -1,0 +1,63 @@
+#login-window
+{
+	width: 420px;
+	height: 400px;
+	background-color: white;
+
+	display: flex;
+	flex-direction: column;
+	justify-content: space-around;
+	align-items: center;
+
+	margin-bottom: 1rem;
+}
+
+#login-window .logo
+{
+	height: 75px;
+}
+
+#login-window .info
+{
+	width: 65.5%;
+
+	display: flex;
+	flex-direction: column;
+}
+
+#login-window .info input
+{
+	padding: 0.5rem;
+	margin: 0.125rem 0;
+}
+
+#login-window .info #login
+{
+	background-color: #ce0000;
+
+	cursor: pointer;
+	color: white;
+	font-size: 1.25em;
+	
+	margin-top: 0.5rem;
+	padding: 0.25rem 0;
+	border: none;
+	border-radius: 5px;
+}
+
+#login-window-create
+{
+	width: 420px;
+	height: 100px;
+	background-color: white;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#login-page .signup
+{
+	color: #ce0000;
+	font-weight: bold;
+}

@@ -7,9 +7,25 @@
 	margin: 0;
 }
 
+.outlined
+{
+	border: 1px solid rgba(0, 0, 0, 0.125);
+}
+.outlinedhalf
+{
+	border: 1.5px solid rgba(0, 0, 0, 0.125);
+}
+.disabled
+{
+	cursor: unset !important;
+	pointer-events: none;
+	opacity: 0.5;
+}
+
 html, body
 {
 	height: 100%;
+	font-family: "Montserrat";
 }
 
 #root
