@@ -2,10 +2,10 @@
 import { applyActionCode } from "@firebase/auth";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { auth } from "../firebase";
-import { startLoading, stopLoading } from "../state/actions/isLoading";
-import greenCheckmark from "../assets/misc/green-checkmark.png";
-import redX from "../assets/misc/red-x.png";
+import { auth } from "../../firebase";
+import { startLoading, stopLoading } from "../../state/actions/isLoading";
+import greenCheckmark from "../../assets/misc/green-checkmark.png";
+import redX from "../../assets/misc/red-x.png";
 
 const AccountVerification = () =>
 {

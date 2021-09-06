@@ -1,12 +1,14 @@
 import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { signInWithEmailAndPassword } from "@firebase/auth";
-import { auth } from "../firebase";
+import { auth, db } from "../../firebase";
+import { sendEmailVerification, signInWithEmailAndPassword, signOut } from "firebase/auth";
+import { doc, getDoc } from "@firebase/firestore";
 import { useDispatch } from "react-redux";
-import { startLoading, stopLoading } from "../state/actions/isLoading";
-import { setUser } from "../state/actions/currentUser";
-import nameLogo from "../assets/namelogo.png";
-import "../styles/login.css";
+import { startLoading, stopLoading } from "../../state/actions/isLoading";
+import { setUser } from "../../state/actions/currentUser";
+import ErrorMsg from "./ErrorMsg";
+import nameLogo from "../../assets/namelogo.png";
+import "./auth.css";
 
 const LoginPage = () =>
 {
@@ -15,6 +17,7 @@ const LoginPage = () =>
 	const dispatch = useDispatch();
 
 	const [isInfoValid, setInfoValid] = useState(false);
+	const [errorMsg, setErrorMsg] = useState(null);
 
 	const checkEmail = () =>
 	{
@@ -40,24 +43,47 @@ const LoginPage = () =>
 
 	const handleSubmit = async  e =>
 	{
-		if (!isInfoValid) return e.preventDefault();
+		e.preventDefault();
+		if (!isInfoValid) return;
+
+		const email = emailRef.current.value;
+		const password = passwordRef.current.value;
+
 		try
 		{
 			dispatch(startLoading());
-			const user = await signInWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value).then(data => data.user);
+			const user = await signInWithEmailAndPassword(auth, email, password).then(data => data.user);
+			if (!user.emailVerified)
+			{
+				signOut(auth);
+				const sendEmail = async () =>
+				{
+					await sendEmailVerification(user);
+					setErrorMsg("Email sent");
+				};
+				setErrorMsg(<div>Email not verified<br/><span className="link" onClick={sendEmail}>click here</span> to send verification email</div>);
+				return dispatch(stopLoading());
+			}
+			const info = await getDoc(doc(db, "users", user.uid)).then(doc => doc.data());
+			dispatch(setUser({user, info}));
 			dispatch(stopLoading());
-			dispatch(setUser(user));
 		} catch (err)
 		{
+			const errorCode = err.code;
 			console.error("Error with login", err);
+			if (errorCode === "auth/wrong-password" || errorCode === "auth/user-not-found")
+				setErrorMsg("Wrong email or password");
+			else if (errorCode === "auth/too-many-requests")
+				setErrorMsg("Please try again later");
+			dispatch(stopLoading());
 		}
-		e.preventDefault();
 	};
 
 	return(
 		<div id="login-page">
 			<div id="login-window" className="outlined">
 				<div className="logo"><img src={nameLogo} alt="Instadicey logo"></img></div>
+				{ errorMsg ? <ErrorMsg text={errorMsg}/> : null }
 				<form className="info" onSubmit={handleSubmit}>
 					<input type="text" placeholder="Email" id="email" ref={emailRef} onChange={checkForm}></input>
 					<input type="password" placeholder="Password" id="password" ref={passwordRef} onChange={checkForm}></input>
@@ -65,7 +91,7 @@ const LoginPage = () =>
 				</form>
 				<Link to="accounts/password-reset">Forgot password?</Link>
 			</div>
-			<div className="extra outlined"><span>Don't have an account? <Link to="accounts/email-signup" className="button">Sign Up</Link></span></div>
+			<div className="extra outlined"><span>Don't have an account? <Link to="/accounts/email-signup" className="button">Sign Up</Link></span></div>
 		</div>
 	);
 };

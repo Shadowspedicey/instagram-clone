@@ -1,39 +1,31 @@
 import { useEffect, useRef, useState } from "react";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from "@firebase/auth";
-import { auth } from "../firebase";
-import { startLoading, stopLoading } from "../state/actions/isLoading";
-import nameLogo from "../assets/namelogo.png";
-import emailVerificationIcon from "../assets/misc/email-verification.png";
+import { auth, db } from "../../firebase";
+import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth";
+import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { startLoading, stopLoading } from "../../state/actions/isLoading";
+import { setUser } from "../../state/actions/currentUser";
+import ErrorMsg from "./ErrorMsg";
+import nameLogo from "../../assets/namelogo.png";
+import emailVerificationIcon from "../../assets/misc/email-verification.png";
 
 const SignUpPage = () =>
 {
 	const emailRef = useRef();
-	const passwordRef = useRef();
+	const realNameRef = useRef();
 	const usernameRef = useRef();
+	const passwordRef = useRef();
+
 	const history = useHistory();
 	const dispatch = useDispatch();
 
 	const [isInfoValid, setInfoValid] = useState(false);
 	const [emailVerificationTime, setEmailVerificationTime] = useState(false);
+	const [verificationInterval, setVerificationInterval] = useState();
+	const [errorMsg, setErrorMsg] = useState(null);
 
-	useEffect(() =>
-	{
-		let verificationCheck;
-		if (emailVerificationTime)
-		{
-			verificationCheck = setInterval(async () =>
-			{
-				await auth.currentUser.reload();
-				if (auth.currentUser.emailVerified)
-				{
-					history.push("");
-				};
-			}, 5000);
-		}
-		return () => clearInterval(verificationCheck);
-	}, [emailVerificationTime]);
+	useEffect(() => () => clearInterval(verificationInterval));
 
 	const checkEmail = () =>
 	{
@@ -57,21 +49,84 @@ const SignUpPage = () =>
 		else setInfoValid(false);
 	};
 
+	const checkFormWithDB = (_username) =>
+	{
+		return new Promise(async resolve =>
+		{
+			const querySnapshot = await getDocs(collection(db, "users"));
+			querySnapshot.forEach(doc =>
+			{
+				const { username } = doc.data();
+				if (_username === username)
+				{
+					setErrorMsg("Username already taken");
+					resolve(false);
+				}
+				else
+				{
+					setErrorMsg(null);
+					resolve(true);
+				}
+			});
+		});
+	};
+
 	const handleSubmit = async  e =>
 	{
 		e.preventDefault();
 		if (!isInfoValid) return;
+		
+		const email = emailRef.current.value;
+		const realName = realNameRef.current.value;
+		const username = usernameRef.current.value;
+		const password = passwordRef.current.value;
+		
 		try
 		{
 			dispatch(startLoading());
-			const { user } = await createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value);
+
+			const checkWithDB = await checkFormWithDB(username);
+			if (!checkWithDB) return dispatch(stopLoading());
+
+			const info =
+			{
+				email,
+				realName,
+				username,
+				profilePic: "https://firebasestorage.googleapis.com/v0/b/instadicey.appspot.com/o/default%2FprofilePic.jpg?alt=media&token=3ac835a3-016e-470a-b7b3-f898d82cdbde",
+				timestamp: new Date().getTime(),
+			};
+			const { user } = await createUserWithEmailAndPassword(auth, email, password);
+			await setDoc(doc(db, "users", auth.currentUser.uid), info);
+			setErrorMsg(null);
+			
 			await sendEmailVerification(user);
 			setEmailVerificationTime(true);
+			runEmailVerification(info);
+
 			dispatch(stopLoading());
 		} catch (err)
 		{
-			console.error("Error with login", err);
+			const errorCode = err.code;
+			console.error("Error with signup", err);
+			if (errorCode === "auth/email-already-in-use")
+				setErrorMsg("Email already in use");
+			dispatch(stopLoading());
 		}
+	};
+
+	// Runs after checking user info on sign up
+	const runEmailVerification = (info) =>
+	{
+		setVerificationInterval(setInterval(async () =>
+		{
+			await auth.currentUser.reload();
+			if (auth.currentUser.emailVerified)
+			{
+				dispatch(setUser({user: auth.currentUser, info}));
+				history.push("");
+			};
+		}, 5000));
 	};
 	useEffect(() => signOut(auth), []);
 
@@ -80,10 +135,14 @@ const SignUpPage = () =>
 			<div id="signup-page">
 				<div id="signup-window" className="outlined">
 					<div className="logo"><img src={nameLogo} alt="Instadicey logo"></img></div>
-					<span style={{fontWeight: "bold", color: "rgba(50, 50, 50, 0.5)"}}>Sign up now!</span>
+					{ 
+						errorMsg 
+							? <ErrorMsg text={errorMsg}/>
+							: <span style={{fontWeight: "bold", color: "rgba(50, 50, 50, 0.5)"}}>Sign up now!</span> 
+					}
 					<form className="info" onSubmit={handleSubmit}>
 						<input type="text" placeholder="Email" id="email" ref={emailRef} onChange={checkForm}></input>
-						<input type="text" placeholder="Full Name" id="name"></input>
+						<input type="text" placeholder="Full Name" id="name" ref={realNameRef}></input>
 						<input type="text" placeholder="Username" id="username" ref={usernameRef} onChange={checkForm}></input>
 						<input type="password" placeholder="Password" id="password" ref={passwordRef} onChange={checkForm}></input>
 						<button id="signup" className={`${isInfoValid ? null : "disabled"}`}>Sign Up</button>

@@ -1,11 +1,9 @@
-import { Route, Switch } from "react-router";
-import Navbar from "./Navbar";
+import { Switch } from "react-router";
 
 const Logged = () =>
 {
 	return(
 		<div>
-			<Route path="/" component={Navbar}></Route>
 			<Switch>
 
 			</Switch>

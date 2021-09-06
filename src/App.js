@@ -1,14 +1,16 @@
 import { useEffect } from "react";
-import { Route, Switch, withRouter } from "react-router";
-import { auth } from "./firebase";
-import { onAuthStateChanged, signOut } from "@firebase/auth";
+import { Route, Switch } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
+import { auth, db } from "./firebase";
+import { onAuthStateChanged, signOut } from "@firebase/auth";
+import { doc, getDoc } from "@firebase/firestore";
 import { stopLoading } from "./state/actions/isLoading";
 import { setUser } from "./state/actions/currentUser";
+import Navbar from "./components/Navbar";
 import LoadingPage from "./components/LoadingPage";
-import SignUpPage from "./components/SignUpPage";
-import LoginPage from "./components/LoginPage";
-import AccountVerification from "./components/AccountVerification";
+import SignUpPage from "./components/AccountAuth/SignUpPage";
+import LoginPage from "./components/AccountAuth/LoginPage";
+import AccountVerification from "./components/AccountAuth/AccountVerification";
 import Logged from "./components/Logged";
 import "./styles/App.css";
 
@@ -20,11 +22,12 @@ const App = () =>
 
 	const checkIfLoggedIn = () =>
 	{
-		onAuthStateChanged(auth, user =>
+		onAuthStateChanged(auth, async user =>
 		{
-			if (user)
+			if (user && user.emailVerified)
 			{
-				dispatch(setUser(user));
+				const info = await getDoc(doc(db, "users", user.uid)).then(doc => doc.data());
+				dispatch(setUser({user, info}));
 				dispatch(stopLoading());
 			}
 			else
@@ -34,11 +37,12 @@ const App = () =>
 			}
 		});
 	};
-	//useEffect(() => signOut(auth), []);
 	useEffect(checkIfLoggedIn, [dispatch]);
+	//useEffect(() => signOut(auth), []);
 
 	return (
 		<div className="App">
+			{ isLoggedIn ? <Navbar/> : null }
 			{
 				isLoading
 					? <Route path="/" component={LoadingPage}></Route>
