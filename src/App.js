@@ -13,6 +13,7 @@ import LoginPage from "./components/AccountAuth/LoginPage";
 import AccountVerification from "./components/AccountAuth/AccountVerification";
 import Logged from "./components/Logged";
 import "./styles/App.css";
+import PasswordReset from "./components/AccountAuth/PasswordReset";
 
 const App = () =>
 {
@@ -57,6 +58,7 @@ const App = () =>
 					}
 				</Route>
 				<Route exact path="/accounts/email-signup" component={SignUpPage}></Route>
+				<Route exact path="/accounts/password-reset" component={PasswordReset}></Route>
 				<Route path="/accounts/verify" component={AccountVerification}></Route>
 			</Switch>
 		</div>

@@ -20,7 +20,7 @@
 
 .error-msg
 {
-	width: 72.5%;
+	width: 100%;
 	background-color: #FFEEEE;
 	
 	color: #ff0000;
@@ -44,14 +44,25 @@
 	flex-direction: column;
 }
 
-#login-window .info input, #signup-window .info input
+#login-window .info input,
+#signup-window .info input,
+.password-reset-window input,
+.verification-window form input
 {
+	width: 100%;
+	background: #FAFAFA;
+
 	padding: 0.5rem;
 	margin: 0.125rem 0;
+	border: 1px solid rgba(0, 0, 0, 0.25);
 }
 
-#login-window .info #login, #signup-window .info #signup
+#login-window .info button,
+#signup-window .info button,
+.password-reset-window button,
+.verification-window button
 {
+	width: 100%;
 	background-color: #ce0000;
 
 	cursor: pointer;
@@ -59,7 +70,7 @@
 	font-size: 1.25em;
 	
 	margin-top: 0.5rem;
-	padding: 0.25rem 0;
+	padding: 0.25rem 0.25rem;
 	border: none;
 	border-radius: 5px;
 }
@@ -114,6 +125,62 @@
 	bottom: 1rem;
 }
 
+.password-reset-window
+{
+	width: 500px;
+	height: 625px;
+	background-color: white;
+	
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	
+	padding: 2.5rem 5rem 0 5rem;
+}
+.password-reset-window.success
+{
+	width: 700px;
+	height: 420px;
+}
+
+.password-reset-window form
+{
+	width: 100%;
+}
+.password-reset-window form input
+{
+	margin-bottom: 1.25rem;
+}
+.password-reset-window p
+{
+	text-align: center;
+	line-height: 22.5px;
+}
+.password-reset-window .extra
+{
+	width: calc(100% + 10rem);
+	height: 100px;
+	background-color: hsl(0, 0%, 95%);
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	
+	border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
+.password-reset-window .extra a
+{
+	color: black;
+	font-weight: bold;
+	font-size: 1.125em;
+}
+
+.password-reset-window .icon
+{
+	height: 125px;
+}
+
 .verification-window
 {
 	width: 750px;
@@ -126,6 +193,28 @@
 	align-items: center;
 
 	padding: 2.5rem 0;
+}
+.verification-window.password-reset
+{
+	width: 500px;
+
+	padding: 2rem;
+}
+.verification-window.password-reset .email-div
+{
+	text-align: center;
+}
+.verification-window.password-reset .email-div h2
+{
+	margin-bottom: 0.5rem;
+}
+.verification-window.password-reset .email-div span
+{
+	color: rgba(54, 54, 54, 0.75);
+}
+.verification-window.password-reset .icon
+{
+	height: 125px;
 }
 
 .verification-window .icon
