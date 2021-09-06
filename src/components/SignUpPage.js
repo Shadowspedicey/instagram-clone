@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from "@firebase/auth";
 import { auth } from "../firebase";
@@ -12,6 +12,7 @@ const SignUpPage = () =>
 	const emailRef = useRef();
 	const passwordRef = useRef();
 	const usernameRef = useRef();
+	const history = useHistory();
 	const dispatch = useDispatch();
 
 	const [isInfoValid, setInfoValid] = useState(false);
@@ -25,7 +26,10 @@ const SignUpPage = () =>
 			verificationCheck = setInterval(async () =>
 			{
 				await auth.currentUser.reload();
-				console.log(auth.currentUser.emailVerified);
+				if (auth.currentUser.emailVerified)
+				{
+					history.push("");
+				};
 			}, 5000);
 		}
 		return () => clearInterval(verificationCheck);
@@ -55,19 +59,19 @@ const SignUpPage = () =>
 
 	const handleSubmit = async  e =>
 	{
-		if (!isInfoValid) return e.preventDefault();
+		e.preventDefault();
+		if (!isInfoValid) return;
 		try
 		{
 			dispatch(startLoading());
 			const { user } = await createUserWithEmailAndPassword(auth, emailRef.current.value, passwordRef.current.value);
-			sendEmailVerification(user);
+			await sendEmailVerification(user);
 			setEmailVerificationTime(true);
 			dispatch(stopLoading());
 		} catch (err)
 		{
 			console.error("Error with login", err);
 		}
-		e.preventDefault();
 	};
 	useEffect(() => signOut(auth), []);
 

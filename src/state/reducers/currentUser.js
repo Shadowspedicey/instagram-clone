@@ -9,7 +9,6 @@ const currentUser = (state = null, action) =>
 			return state = null;
 		
 		default:
-			console.error("Error with current user reducer");
 			return state;
 	}
 };

@@ -9,7 +9,6 @@ const isLoading = (state = true, action) =>
 			return state = false;
 			
 		default:
-			console.error("Error with loading reducer");
 			return state;
 	}
 };
