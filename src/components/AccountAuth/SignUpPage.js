@@ -62,11 +62,6 @@ const SignUpPage = () =>
 					setErrorMsg("Username already taken");
 					resolve(false);
 				}
-				else
-				{
-					setErrorMsg(null);
-					resolve(true);
-				}
 			});
 		});
 	};
