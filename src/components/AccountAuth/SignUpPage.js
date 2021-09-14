@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { auth, db } from "../../firebase";
 import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth";
-import { collection, doc, getDocs, setDoc } from "firebase/firestore";
+import { collection, doc, getDocs, setDoc, query, where } from "@firebase/firestore";
 import { startLoading, stopLoading } from "../../state/actions/isLoading";
 import { setUser } from "../../state/actions/currentUser";
 import ErrorMsg from "./ErrorMsg";
@@ -53,16 +53,15 @@ const SignUpPage = () =>
 	{
 		return new Promise(async resolve =>
 		{
-			const querySnapshot = await getDocs(collection(db, "users"));
-			querySnapshot.forEach(doc =>
+			const usersRef = collection(db, "users");
+			const q = query(usersRef, where("username", "==", _username));
+			const querySnapshot = await getDocs(q);
+			console.log(querySnapshot.docs.length);
+			if (querySnapshot.docs.length !== 0)
 			{
-				const { username } = doc.data();
-				if (_username === username)
-				{
-					setErrorMsg("Username already taken");
-					resolve(false);
-				}
-			});
+				setErrorMsg("Username already taken");
+				resolve(false);
+			} else resolve(true);
 		});
 	};
 
@@ -83,16 +82,22 @@ const SignUpPage = () =>
 			const checkWithDB = await checkFormWithDB(username);
 			if (!checkWithDB) return dispatch(stopLoading());
 
+			const { user } = await createUserWithEmailAndPassword(auth, email, password);
 			const info =
 			{
 				email,
 				realName,
 				username,
 				profilePic: "https://firebasestorage.googleapis.com/v0/b/instadicey.appspot.com/o/default%2FprofilePic.jpg?alt=media&token=3ac835a3-016e-470a-b7b3-f898d82cdbde",
+				bio: "",
+				followers: [],
+				following: [],
+				posts: [],
+				uid: auth.currentUser.uid,
 				timestamp: new Date().getTime(),
 			};
-			const { user } = await createUserWithEmailAndPassword(auth, email, password);
-			await setDoc(doc(db, "users", auth.currentUser.uid), info);
+			const userDocRef = doc(db, "users", auth.currentUser.uid);
+			await setDoc(userDocRef, info);
 			setErrorMsg(null);
 			
 			await sendEmailVerification(user);
