@@ -33,15 +33,16 @@ const UserProfile = () =>
 
 	useEffect(() =>
 	{
-		const setUserInfo = async () =>
+		const fetchUserInfo = async () =>
 		{
 			dispatch(startLoading());
 			const querySnapshot = await getUserInfo();
+			console.log(querySnapshot);
 			if (querySnapshot.size === 1) setUserInfo(querySnapshot.docs[0].data());
 			else setUserInfo(null);
 			dispatch(stopLoading());
 		};
-		setUserInfo();
+		fetchUserInfo();
 	}, [username]);
 
 	if (userInfo === null) return(<div>not found</div>);
@@ -55,7 +56,7 @@ const UserProfile = () =>
 							{userInfo.username}
 							{ currentUser
 								? userInfo.uid === currentUser.info.uid
-									? "a7a"
+									? <button className="btn">Edit Profile</button>
 									: <FollowButton target={userInfo} setIsFollowing={setIsFollowing} following={isFollowing}/>
 								: <FollowButton target={userInfo}/>
 							}
