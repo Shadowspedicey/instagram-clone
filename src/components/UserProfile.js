@@ -16,8 +16,9 @@ const UserProfile = () =>
 	const [isFollowing, setIsFollowing] = useState(false);
 	useEffect(() =>
 	{
-		if (currentUser && userInfo.followers.includes(currentUser.info.username)) setIsFollowing(true);
-		else setIsFollowing(false);
+		if (userInfo)
+			if (currentUser && userInfo.followers.includes(currentUser.info.username)) setIsFollowing(true);
+			else setIsFollowing(false);
 	}, [currentUser, userInfo]);
 
 	const dispatch = useDispatch();
@@ -50,9 +51,7 @@ const UserProfile = () =>
 							{ currentUser
 								? userInfo.uid === currentUser.info.uid
 									? "a7a"
-									: isFollowing
-										? "yes"
-										: <FollowButton target={userInfo} setIsFollowing={setIsFollowing}/>
+									: <FollowButton target={userInfo} setIsFollowing={setIsFollowing} following={isFollowing}/>
 								: <FollowButton target={userInfo}/>
 							}
 						</div>
