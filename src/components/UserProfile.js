@@ -25,18 +25,23 @@ const UserProfile = () =>
 
 	const getUserInfo = async () =>
 	{
-		dispatch(startLoading());
 		const usersRef = collection(db, "users");
 		const q = query(usersRef, where("username", "==", username));
 		const querySnapshot = await getDocs(q);
-		if (querySnapshot.size === 1) setUserInfo(querySnapshot.docs[0].data());
-		else setUserInfo(null);
-		dispatch(stopLoading());
+		return querySnapshot;
 	};
 
 	useEffect(() =>
 	{
-		getUserInfo();
+		const setUserInfo = async () =>
+		{
+			dispatch(startLoading());
+			const querySnapshot = await getUserInfo();
+			if (querySnapshot.size === 1) setUserInfo(querySnapshot.docs[0].data());
+			else setUserInfo(null);
+			dispatch(stopLoading());
+		};
+		setUserInfo();
 	}, [username]);
 
 	if (userInfo === null) return(<div>not found</div>);
