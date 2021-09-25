@@ -1,11 +1,13 @@
 import { combineReducers } from "redux";
 import isLoadingReducer from "./isLoading";
-import currentUser from "./currentUser";
+import currentUserReducer from "./currentUser";
+import snackbarReducer from "./snackbar";
 
 const root = combineReducers(
 	{
 		loading: isLoadingReducer,
-		currentUser,
+		currentUser: currentUserReducer,
+		snackbar: snackbarReducer,
 	}
 );
 
