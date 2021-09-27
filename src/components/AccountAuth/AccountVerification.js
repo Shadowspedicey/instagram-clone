@@ -10,6 +10,7 @@ import redX from "../../assets/misc/red-x.png";
 
 const AccountVerification = () =>
 {
+	const dispatch = useDispatch();
 	const [mode, setMode] = useState("");
 	const [actionCode, setActionCode] = useState("");
 	const [status, setStatus] = useState({});
@@ -20,7 +21,7 @@ const AccountVerification = () =>
 	const [passwordResetEmail, setPasswordResetEmail] = useState("");
 	const [isInfoValid, setIsInfoValid] = useState(false);
 
-	const dispatch = useDispatch();
+	useEffect(() => document.title = "Verification • Instadicey", []);
 
 	const handleVerifyEmail = async () =>
 	{

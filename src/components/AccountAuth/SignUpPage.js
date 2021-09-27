@@ -25,6 +25,7 @@ const SignUpPage = () =>
 	const [verificationInterval, setVerificationInterval] = useState();
 	const [errorMsg, setErrorMsg] = useState(null);
 
+	useEffect(() => document.title = "Sign Up • Instadicey", []);
 	useEffect(() => () => clearInterval(verificationInterval));
 
 	const checkEmail = () =>

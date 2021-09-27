@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { auth, db } from "../../firebase";
 import { sendEmailVerification, signInWithEmailAndPassword, signOut } from "firebase/auth";
@@ -18,6 +18,8 @@ const LoginPage = () =>
 
 	const [isInfoValid, setInfoValid] = useState(false);
 	const [errorMsg, setErrorMsg] = useState(null);
+
+	useEffect(() => document.title = "Login • Instadicey", []);
 
 	const checkEmail = () =>
 	{

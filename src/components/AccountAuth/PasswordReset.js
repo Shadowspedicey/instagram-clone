@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { auth } from "../../firebase";
 import { sendPasswordResetEmail } from "@firebase/auth";
@@ -12,6 +12,8 @@ const PasswordReset = () =>
 	const [isInfoValid, setIsInfoValid] = useState(false);
 	const [isEmailSent, setIsEmailSent] = useState(false);
 	const [errorMsg, setErrorMsg] = useState(null);
+
+	useEffect(() => document.title = "Reset Password • Instadicey", []);
 
 	const checkEmail = () =>
 	{

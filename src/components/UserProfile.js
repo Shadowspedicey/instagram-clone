@@ -47,6 +47,13 @@ const UserProfile = () =>
 		fetchUserInfo();
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [username]);
+	useEffect(() =>
+	{
+		if (!userInfo) return;
+		userInfo.realName
+			?	document.title = `${userInfo.realName} (@${userInfo.username}) • Instadicey`
+			: document.title = `@${userInfo.username} • Instadicey`;
+	}, [userInfo]);
 
 	if (userInfo === null) return <div>not found</div>;
 	else return(

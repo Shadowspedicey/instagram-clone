@@ -52,7 +52,7 @@ const App = () =>
 	//useEffect(() => signOut(auth), []);
 
 	return (
-		<div className="App">
+		<div className="App" style={isLoggedIn ? { paddingTop: "75px" } : null}>
 			{ isLoggedIn ? <Navbar/> : null }
 			{
 				isLoading
