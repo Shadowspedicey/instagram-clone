@@ -1,3 +1,8 @@
+#login-page, #signup-page
+{
+	margin: auto;
+}
+
 #login-window, #signup-window
 {
 	width: 420px;

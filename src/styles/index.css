@@ -3,13 +3,14 @@
 *::after
 {
 	box-sizing: border-box;
+	font-family: "Montserrat";
 	padding: 0;
 	margin: 0;
 }
 
 .outlined
 {
-	border: 1px solid rgba(0, 0, 0, 0.125);
+	border: 1px solid rgba(0, 0, 0, 0.125) !important;
 }
 .outlinedhalf
 {
@@ -39,6 +40,7 @@ html, body
 
 a
 {
+	color: inherit;
 	text-decoration: none;
 }
 
@@ -48,6 +50,31 @@ li
 }
 
 img
+{
+	height: 100%;
+}
+
+button
+{
+	width: 100%;
+	background-color: #ce0000;
+
+	cursor: pointer;
+	color: white;
+	
+	padding: 0.25rem 0.5rem;
+	border: none;
+	border-radius: 5px;
+}
+
+button.loading
+{
+	height: initial;
+	background-color: hsl(0, 100%, 75%) !important;
+	cursor: initial;
+	pointer-events: none;
+}
+button.loading div
 {
 	height: 100%;
 }

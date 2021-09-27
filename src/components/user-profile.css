@@ -2,9 +2,7 @@
 {
 	height: 100%;
 	width: 1050px;
-
-	position: relative;
-	top: 50px;
+	margin-top: 50px;
 }
 
 .user-profile .upper
@@ -24,8 +22,12 @@
 
 .user-profile .upper .personal-info .profile-pic
 {
+	width: 175px;
 	height: 175px;
 	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	margin-right: 7.5rem;
 	border-radius: 50%;
 	border: 1px solid rgba(206, 206, 206, 0.25);
@@ -61,7 +63,7 @@
 	align-items: flex-end;
 }
 
-.user-profile .upper .personal-info .info .name .follow-btn
+.user-profile .upper .personal-info .info .name button
 {
 	height: 33px;
 	background-color: #db0000;
@@ -77,16 +79,25 @@
 	border: none;
 	border-radius: 4px;
 }
-.follow-btn.loading
+
+a.edit-profile-btn
 {
-	height: initial;
-	background-color: hsl(0, 100%, 75%) !important;
-	cursor: initial;
-	pointer-events: none;
+	color: black;
+	background-color: #FAFAFA !important;
+
+	cursor: pointer;
+	font-size: 0.65em;
+	font-weight: 500;
+	
+	padding: 0.25rem 0.5rem;
+	margin-left: 1rem;
+	border-radius: 5px;
 }
-.follow-btn.loading div
+
+.user-profile .upper .personal-info .bio
 {
-	height: 100%;
+	width: 330px;
+	word-break: break-all;
 }
 
 .user-profile .upper .personal-info .bio .real-name
