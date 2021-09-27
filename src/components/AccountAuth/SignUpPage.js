@@ -37,15 +37,13 @@ const SignUpPage = () =>
 		else return true;
 	};
 
-	const checkPassword = () =>
-	{
-		const passwordValue = passwordRef.current.value;
-		return passwordValue.length < 6 ? false : true;
-	};
+	const checkPassword = () => passwordRef.current.value.length < 6 ? false : true;
+
+	const checkUsername = () => usernameRef.current.value.length > 20 || usernameRef.current.value.length === 0 || !usernameRef.current.value.match(/^[A-Za-z0-9]*$/) ? false : true;
 
 	const checkForm = () =>
 	{
-		if (checkEmail() && checkPassword() && usernameRef.current.value.length > 0) setInfoValid(true);
+		if (checkEmail() && checkPassword() && checkUsername()) setInfoValid(true);
 		else setInfoValid(false);
 	};
 
@@ -89,6 +87,7 @@ const SignUpPage = () =>
 				realName,
 				username,
 				profilePic: "https://firebasestorage.googleapis.com/v0/b/instadicey.appspot.com/o/default%2FprofilePic.jpg?alt=media&token=3ac835a3-016e-470a-b7b3-f898d82cdbde",
+				defaultProfilePic: true,
 				bio: "",
 				followers: [],
 				following: [],
