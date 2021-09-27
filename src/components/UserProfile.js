@@ -2,11 +2,13 @@ import { collection, getDocs, query, where } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import { db } from "../firebase";
 import { startLoading, stopLoading } from "../state/actions/isLoading";
 import FollowButton from "./FollowButton";
 import "./user-profile.css";
 
+//TODO: titles and loading titles
 const UserProfile = () =>
 {
 	const { username } = useParams();
@@ -43,9 +45,10 @@ const UserProfile = () =>
 			dispatch(stopLoading());
 		};
 		fetchUserInfo();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [username]);
 
-	if (userInfo === null) return(<div>not found</div>);
+	if (userInfo === null) return <div>not found</div>;
 	else return(
 		<div className="user-profile">
 			<div className="upper">
@@ -56,7 +59,7 @@ const UserProfile = () =>
 							{userInfo.username}
 							{ currentUser
 								? userInfo.uid === currentUser.info.uid
-									? <button className="btn">Edit Profile</button>
+									? <Link to="/accounts/edit" className="edit-profile-btn outlined">Edit Profile</Link>
 									: <FollowButton target={userInfo} setIsFollowing={setIsFollowing} following={isFollowing}/>
 								: <FollowButton target={userInfo}/>
 							}

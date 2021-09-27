@@ -1,0 +1,262 @@
+.profile-edit
+{
+	width: 925px;
+	background-color: white;
+
+	display: flex;
+
+	margin: 25px 0;
+}
+
+.profile-edit .sidebar
+{
+	height: 100%;
+	width: 250px;
+
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	border-right: 1px solid rgba(0, 0, 0, 0.125)
+}
+
+.profile-edit .sidebar ul
+{
+	width: 100%;
+}
+
+.profile-edit .sidebar li
+{
+	width: 100%;
+	height: 50px;
+}
+
+.profile-edit .sidebar li a
+{
+	width: 100%;
+	height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.profile-edit .sidebar li a.selected
+{
+	font-weight: bold;
+	border-left: 2.5px solid black;
+}
+
+.profile-edit .main
+{
+	flex-grow: 1;
+}
+
+.edit-profile
+{
+	width: 100%;
+	padding: 2rem 4rem;
+
+	display: flex;
+	flex-direction: column;
+}
+
+.edit-profile .element
+{
+	width: 100%;
+	display: flex;
+	align-items: center;
+	margin: 0.75rem 0;
+}
+
+.edit-profile .element .left
+{
+	margin-right: 1.75rem;
+}
+
+.edit-profile .element .right
+{
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.edit-profile form .element
+{
+	align-items: flex-start;
+}
+.edit-profile form .element .left
+{
+	width: 106px;
+	text-align: end;
+	font-weight: 600;
+	margin-top: 5px;
+}
+.edit-profile form .element .right
+{
+	width: 60%;
+	display: flex;
+	flex-direction: column;
+}
+.edit-profile form .element .right p
+{
+	color: rgb(142, 142, 142);
+	font-size: 13.5px;
+	font-weight: 500;
+	letter-spacing: 0px;
+	margin-top: 1rem;
+	margin-bottom: 2rem;
+}
+.edit-profile form .element input
+{
+	width: 100%;
+	font-size: 1em;
+	padding: 0.375rem;
+}
+.edit-profile form .element textarea
+{
+	height: 75px;
+	resize: vertical;
+	overflow: auto;
+
+	font-size: 0.925em;
+	font-family: "Montserrat";
+	letter-spacing: 0;
+
+	padding: 0.375rem;
+}
+
+.edit-profile .element.profile-pic
+{
+	height: 37.5px;
+	position: relative;
+	left: 65px;
+}
+.edit-profile .element.profile-pic .left
+{
+	width: 40px;
+	cursor: pointer;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.edit-profile .element.profile-pic .left .loading
+{
+	background-color: transparent;
+	height: 100%;
+	position: absolute;
+}
+.edit-profile .element.profile-pic .right
+{
+	align-items: flex-start;
+	font-weight: 500;
+	justify-content: space-between;
+}
+.edit-profile .element.profile-pic .right button
+{
+	width: initial;
+	background: transparent;
+	cursor: pointer;
+	
+	color: #db0000;
+	font-weight: bold;
+	font-size: 0.95em;
+	
+	padding: 0;
+	border: none;
+}
+.edit-profile .element.profile-pic .right button:active
+{
+	color: #f07d7d !important;
+}
+
+.edit-profile .img-container
+{
+	height: 40px;
+	border-radius: 25px;
+	overflow: hidden;
+}
+
+.edit-profile .element.info p
+{
+	margin: 0 !important;
+}
+.edit-profile .element.info p.header
+{
+	font-weight: bold;
+	margin-top: 2rem !important;
+	margin-bottom: 0.5rem !important;
+}
+
+.edit-profile .element .submit
+{
+	width: max-content;
+	font-size: 0.9em;
+	font-weight: bold;
+	padding: 0.4rem 0.6rem;
+}
+.edit-profile .element button.loading
+{
+	height: 30px;
+	width: 73px;
+}
+
+.photo-changer-box-container
+{
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.5);
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 99999;
+}
+
+.photo-changer-box
+{
+	width: 400px;
+	background-color: white;
+	overflow: hidden;
+	animation: shrinkToNormal 50ms ease-in-out 0s forwards;
+
+	border-radius: 25px;
+}
+.photo-changer-box h2
+{
+	font-size: 1.125em;
+	text-align: center;
+	font-weight: 500;
+	margin: 2rem 0;
+}
+.photo-changer-box button:active
+{
+	background-color: rgba(0, 0, 0, 0.075);
+}
+.photo-changer-box button
+{
+	background-color: white;
+	color: black;
+	font-weight: 700;
+	padding: 1rem 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.125);
+	border-radius: 0;
+}
+.photo-changer-box button.upload
+{
+	color: #0095f6;
+}
+.photo-changer-box button.remove
+{
+	color: #db0000;
+}
+
+@keyframes shrinkToNormal
+{
+	0%
+	{
+		transform: scale(1.125);
+	}
+}
