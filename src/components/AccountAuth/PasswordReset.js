@@ -5,9 +5,11 @@ import { sendPasswordResetEmail } from "@firebase/auth";
 import ErrorMsg from "./ErrorMsg";
 import Lock from "../../assets/misc/lock.png";
 import greenCheckmark from "../../assets/misc/green-checkmark.png";
+import { useSelector } from "react-redux";
 
 const PasswordReset = () =>
 {
+	const currentUser = useSelector(state => state.currentUser);
 	const emailRef = useRef();
 	const [isInfoValid, setIsInfoValid] = useState(false);
 	const [isEmailSent, setIsEmailSent] = useState(false);
@@ -69,9 +71,11 @@ const PasswordReset = () =>
 					<input type="text" id="email" placeholder="Email" ref={emailRef} onChange={checkEmail}></input>
 					<button id="reset" className={`${isInfoValid ? null : "disabled"}`}>Send Email</button>
 				</form>
-				<div className="extra">
-					<Link to="/">Back To Login</Link>
-				</div>
+				{ !currentUser &&
+					<div className="extra outlined">
+						<Link to="/">Back To Login</Link>
+					</div>
+				}
 			</div>
 		);
 	}

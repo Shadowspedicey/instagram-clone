@@ -181,7 +181,7 @@ const EditProfile = () =>
 
 	if (!currentUser) return null;
 	return(
-		<div className="edit-profile">
+		<div className="account-element edit-profile">
 			{ isPhotoChangerBoxOpen &&
 					<div className="photo-changer-box-container" onClick={closePhotoBox}>
 						<div className="photo-changer-box" onClick={e => e.stopPropagation()}>

@@ -68,9 +68,10 @@ const App = () =>
 					}
 				</Route>
 				<Route exact path="/accounts/email-signup" component={SignUpPage}></Route>
-				<Route exact path="/accounts/password-reset" component={PasswordReset}></Route>
+				<Route exact path="/accounts/password/reset" component={PasswordReset}></Route>
 				<Route path="/accounts/verify" component={AccountVerification}></Route>
-				<Route path="/accounts/edit" component={AccountEdit}></Route>
+				
+				<Route path="/accounts" component={AccountEdit}></Route>
 
 				<Route exact path="/:username" component={UserProfile}></Route>
 			</Switch>

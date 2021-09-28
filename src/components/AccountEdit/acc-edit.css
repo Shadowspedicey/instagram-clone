@@ -1,4 +1,4 @@
-.profile-edit
+.account-edit
 {
 	width: 925px;
 	background-color: white;
@@ -8,10 +8,10 @@
 	margin: 25px 0;
 }
 
-.profile-edit .sidebar
+.account-edit .sidebar
 {
-	height: 100%;
-	width: 250px;
+	min-height: 100%;
+	min-width: 215px;
 
 	display: flex;
 	flex-direction: column;
@@ -20,46 +20,68 @@
 	border-right: 1px solid rgba(0, 0, 0, 0.125)
 }
 
-.profile-edit .sidebar ul
+.account-edit .sidebar ul
 {
 	width: 100%;
 }
 
-.profile-edit .sidebar li
+.account-edit .sidebar li
 {
 	width: 100%;
 	height: 50px;
 }
 
-.profile-edit .sidebar li a
+.account-edit .sidebar li a
 {
 	width: 100%;
 	height: 100%;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	padding-left: 2.5px;
 }
-.profile-edit .sidebar li a.selected
+.account-edit .sidebar li a:hover
 {
+	background-color: rgba(0, 0, 0, 0.025);
+	padding: 0;
+	border-left: 2.5px solid rgba(0, 0, 0, 0.25);
+}
+.account-edit .sidebar li a:active
+{
+	color:rgba(0, 0, 0, 0.5);
+	background-color: rgba(0, 0, 0, 0.0125);
+	border-left: 2.5px solid rgba(0, 0, 0, 0.1);
+}
+.account-edit .sidebar li a.selected
+{
+	background-color: white;
 	font-weight: bold;
 	border-left: 2.5px solid black;
+	padding: 0;
+}
+.account-edit .sidebar li a.selected:active
+{
+	color: rgba(0, 0, 0, 0.5);
+	border-left: 2.5px solid rgba(0, 0, 0, 0.5) !important;
 }
 
-.profile-edit .main
+.account-edit .main
 {
 	flex-grow: 1;
 }
+.account-edit .main > div
+{
+	padding: 2rem 4rem;
+}
 
-.edit-profile
+.account-element
 {
 	width: 100%;
-	padding: 2rem 4rem;
-
 	display: flex;
 	flex-direction: column;
 }
 
-.edit-profile .element
+.account-element .element
 {
 	width: 100%;
 	display: flex;
@@ -67,36 +89,36 @@
 	margin: 0.75rem 0;
 }
 
-.edit-profile .element .left
+.account-element .element .left
 {
 	margin-right: 1.75rem;
 }
 
-.edit-profile .element .right
+.account-element .element .right
 {
 	height: 100%;
 	display: flex;
 	flex-direction: column;
 }
 
-.edit-profile form .element
+.account-element form .element
 {
 	align-items: flex-start;
 }
-.edit-profile form .element .left
+.account-element form .element .left
 {
-	width: 106px;
+	width: 125px;
 	text-align: end;
 	font-weight: 600;
 	margin-top: 5px;
 }
-.edit-profile form .element .right
+.account-element form .element .right
 {
 	width: 60%;
 	display: flex;
 	flex-direction: column;
 }
-.edit-profile form .element .right p
+.account-element form .element .right p
 {
 	color: rgb(142, 142, 142);
 	font-size: 13.5px;
@@ -105,13 +127,13 @@
 	margin-top: 1rem;
 	margin-bottom: 2rem;
 }
-.edit-profile form .element input
+.account-element form .element input
 {
 	width: 100%;
 	font-size: 1em;
 	padding: 0.375rem;
 }
-.edit-profile form .element textarea
+.account-element form .element textarea
 {
 	height: 75px;
 	resize: vertical;
@@ -124,31 +146,66 @@
 	padding: 0.375rem;
 }
 
-.edit-profile .element.profile-pic
+.account-element .element.profile-pic
 {
 	height: 37.5px;
 	position: relative;
 	left: 65px;
 }
-.edit-profile .element.profile-pic .left
+.account-element .element.profile-pic .left
 {
 	width: 40px;
-	cursor: pointer;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
-.edit-profile .element.profile-pic .left .loading
+.account-element .element.profile-pic .left .loading
 {
 	background-color: transparent;
 	height: 100%;
 	position: absolute;
 }
-.edit-profile .element.profile-pic .right
+.account-element .element.profile-pic .right
 {
 	align-items: flex-start;
 	font-weight: 500;
 	justify-content: space-between;
+}
+
+.account-element .img-container
+{
+	height: 40px;
+	border-radius: 25px;
+	overflow: hidden;
+}
+
+.account-element .element.info p
+{
+	margin: 0 !important;
+}
+.account-element .element.info p.header
+{
+	font-weight: bold;
+	margin-top: 2rem !important;
+	margin-bottom: 0.5rem !important;
+}
+
+.account-element .element .submit
+{
+	width: max-content;
+	font-size: 0.9em;
+	font-weight: bold;
+	padding: 0.4rem 0.6rem;
+}
+.account-element .element button.loading
+{
+	height: 30px;
+	width: 73px;
+}
+
+.edit-profile .element.profile-pic .left
+{
+	cursor: pointer;
 }
 .edit-profile .element.profile-pic .right button
 {
@@ -168,38 +225,7 @@
 	color: #f07d7d !important;
 }
 
-.edit-profile .img-container
-{
-	height: 40px;
-	border-radius: 25px;
-	overflow: hidden;
-}
-
-.edit-profile .element.info p
-{
-	margin: 0 !important;
-}
-.edit-profile .element.info p.header
-{
-	font-weight: bold;
-	margin-top: 2rem !important;
-	margin-bottom: 0.5rem !important;
-}
-
-.edit-profile .element .submit
-{
-	width: max-content;
-	font-size: 0.9em;
-	font-weight: bold;
-	padding: 0.4rem 0.6rem;
-}
-.edit-profile .element button.loading
-{
-	height: 30px;
-	width: 73px;
-}
-
-.photo-changer-box-container
+.edit-profile .photo-changer-box-container
 {
 	width: 100vw;
 	height: 100vh;
@@ -215,7 +241,7 @@
 	z-index: 99999;
 }
 
-.photo-changer-box
+.edit-profile .photo-changer-box
 {
 	width: 400px;
 	background-color: white;
@@ -224,18 +250,18 @@
 
 	border-radius: 25px;
 }
-.photo-changer-box h2
+.edit-profile .photo-changer-box h2
 {
 	font-size: 1.125em;
 	text-align: center;
 	font-weight: 500;
 	margin: 2rem 0;
 }
-.photo-changer-box button:active
+.edit-profile .photo-changer-box button:active
 {
 	background-color: rgba(0, 0, 0, 0.075);
 }
-.photo-changer-box button
+.edit-profile .photo-changer-box button
 {
 	background-color: white;
 	color: black;
@@ -244,13 +270,38 @@
 	border-top: 1px solid rgba(0, 0, 0, 0.125);
 	border-radius: 0;
 }
-.photo-changer-box button.upload
+.edit-profile .photo-changer-box button.upload
 {
 	color: #0095f6;
 }
-.photo-changer-box button.remove
+.edit-profile .photo-changer-box button.remove
 {
 	color: #db0000;
+}
+
+.account-edit .change-password .element.profile-pic .right
+{
+	justify-content: center;
+}
+
+.account-edit .change-password form input
+{
+	background-color: #FAFAFA;
+}
+.account-edit .change-password form button.loading
+{
+	width: 155px;
+}
+
+.account-edit .change-password .forgot-password
+{
+	font-size: 0.95em;
+	color: #db0000;
+	font-weight: 600;
+}
+.account-edit .change-password .forgot-password:active
+{
+	color: #f07d7d !important;
 }
 
 @keyframes shrinkToNormal

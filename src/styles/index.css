@@ -66,6 +66,10 @@ button
 	border: none;
 	border-radius: 5px;
 }
+button:active
+{
+	background-color: hsl(0, 77%, 60%);
+}
 
 button.loading
 {

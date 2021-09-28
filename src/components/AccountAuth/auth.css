@@ -133,15 +133,18 @@
 .password-reset-window
 {
 	width: 500px;
-	height: 625px;
+	height: 525px;
 	background-color: white;
+
+	position: relative;
+	bottom: 50px;
 	
 	display: flex;
 	flex-direction: column;
 	justify-content: space-between;
 	align-items: center;
 	
-	padding: 2.5rem 5rem 0 5rem;
+	padding: 2.5rem 5rem;
 	margin: auto;
 }
 .password-reset-window.success
@@ -165,9 +168,12 @@
 }
 .password-reset-window .extra
 {
-	width: calc(100% + 10rem);
+	width: 100%;
 	height: 100px;
 	background-color: hsl(0, 0%, 95%);
+
+	position: absolute;
+	top: 100%;
 	
 	display: flex;
 	justify-content: center;
