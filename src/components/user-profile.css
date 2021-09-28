@@ -65,6 +65,7 @@
 
 .user-profile .upper .personal-info .info .name button
 {
+	width: initial;
 	height: 33px;
 	background-color: #db0000;
 	cursor: pointer;

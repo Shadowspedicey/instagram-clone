@@ -1,13 +1,15 @@
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { doc, runTransaction } from "@firebase/firestore";
 import { db } from "../firebase";
 import Loading from "../assets/misc/loading.jpg";
+import { setSnackbar } from "../state/actions/snackbar";
 
 const FollowButton = ({ following, target, setIsFollowing }) =>
 {
-	const [isLoading, setIsLoading] = useState(null);
 	const currentUser = useSelector(state => state.currentUser);
+	const dispatch = useDispatch();
+	const [isLoading, setIsLoading] = useState(null);
 
 	const follow = async () =>
 	{
@@ -40,16 +42,17 @@ const FollowButton = ({ following, target, setIsFollowing }) =>
 			{
 				const sfDoc = await t.get(userRef);
 				if (!sfDoc.exists()) throw new Error("Document does not exist");
-				if (sfDoc.data().following.includes(target.username)) throw new Error("User already followed");
-				const newFollowingArray = [...sfDoc.data().following, target.username];
+				if (sfDoc.data().following.includes(target.uid)) throw new Error("User already followed");
+				const newFollowingArray = [...sfDoc.data().following, target.uid];
 				t.update(userRef, { following: newFollowingArray }, { merge: true });
 			});
 		}
 		catch (err)
 		{
 			console.error(err);
-			if (err.message === "User already followed") alert("You already follow this person.");
-			else alert("Oops, try again later.");
+			if (err.message === "User already followed") 
+				return dispatch(setSnackbar("You already follow this person.", "error"));
+			dispatch(setSnackbar("Oops, try again later.", "error"));
 		}
 	};
 	const removeFromUsersFollowing = async () =>
@@ -61,16 +64,17 @@ const FollowButton = ({ following, target, setIsFollowing }) =>
 			{
 				const sfDoc = await t.get(userRef);
 				if (!sfDoc.exists()) throw new Error("Document does not exist");
-				if (!sfDoc.data().following.includes(target.username)) throw new Error("User already not followed");
-				const newFollowingArray = sfDoc.data().following.filter(user => user !== target.username);
+				if (!sfDoc.data().following.includes(target.uid)) throw new Error("User already not followed");
+				const newFollowingArray = sfDoc.data().following.filter(user => user !== target.uid);
 				t.update(userRef, { following: newFollowingArray }, { merge: true });
 			});
 		}
 		catch (err)
 		{
 			console.error(err);
-			if (err.message === "User already nor followed") alert("You already don't follow this person.");
-			else alert("Oops, try again later.");
+			if (err.message === "User already not followed") 
+				dispatch(setSnackbar("You already don't follow this person.", "error"));
+			dispatch(setSnackbar("Oops, try again later.", "error"));
 		}
 	};
 
@@ -83,16 +87,14 @@ const FollowButton = ({ following, target, setIsFollowing }) =>
 			{
 				const sfDoc = await t.get(targetRef);
 				if (!sfDoc.exists()) throw new Error("Document does not exist");
-				const newFollowersArray = [...sfDoc.data().followers, currentUser.info.username];
-				console.log(currentUser.info.username);
-				console.log(newFollowersArray);
+				const newFollowersArray = [...sfDoc.data().followers, currentUser.info.uid];
 				t.update(targetRef, { followers: newFollowersArray }, { merge: true });
 			});
 		}
 		catch (err)
 		{
 			console.error(err);
-			alert("Oops, try again later.");
+			dispatch(setSnackbar("Oops, try again later.", "error"));
 		}
 	};
 	const removeFromTargetsFollowers = async () =>
@@ -104,15 +106,13 @@ const FollowButton = ({ following, target, setIsFollowing }) =>
 			{
 				const sfDoc = await t.get(targetRef);
 				if (!sfDoc.exists()) throw new Error("Document does not exist");
-				const newFollowersArray = sfDoc.data().following.filter(user => user !== currentUser.info.username);
-				console.log(currentUser.info.username);
-				console.log(newFollowersArray);
+				const newFollowersArray = sfDoc.data().following.filter(user => user !== currentUser.info.uid);
 				t.update(targetRef, { followers: newFollowersArray }, { merge: true });
 			});
 		}
 		catch (err)
 		{
-			alert("Oops, try again later.");
+			dispatch(setSnackbar("Oops, try again later.", "error"));
 		}
 	};
 

@@ -19,7 +19,7 @@ const UserProfile = () =>
 	useEffect(() =>
 	{
 		if (userInfo)
-			if (currentUser && userInfo.followers.includes(currentUser.info.username)) setIsFollowing(true);
+			if (currentUser && userInfo.followers.includes(currentUser.info.uid)) setIsFollowing(true);
 			else setIsFollowing(false);
 	}, [currentUser, userInfo]);
 
