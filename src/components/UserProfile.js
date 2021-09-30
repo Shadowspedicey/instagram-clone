@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { db } from "../firebase";
 import { startLoading, stopLoading } from "../state/actions/isLoading";
 import FollowButton from "./FollowButton";
+import FollowWindow from "./FollowWindow";
 import "./user-profile.css";
 
 //TODO: titles and loading titles
@@ -15,13 +16,13 @@ const UserProfile = () =>
 
 	const currentUser = useSelector(state => state.currentUser);
 	const [userInfo, setUserInfo] = useState(null);
-	const [isFollowing, setIsFollowing] = useState(false);
-	useEffect(() =>
+	const [isFollowingListWindowOpen, setIsFollowingListWindowOpen] = useState(false);
+	const [isFollowersListWindowOpen, setIsFollowersListWindowOpen] = useState(false);
+	const closeFollowListWindow = () =>
 	{
-		if (userInfo)
-			if (currentUser && userInfo.followers.includes(currentUser.info.uid)) setIsFollowing(true);
-			else setIsFollowing(false);
-	}, [currentUser, userInfo]);
+		setIsFollowingListWindowOpen(false);
+		setIsFollowersListWindowOpen(false);
+	};
 
 	const dispatch = useDispatch();
 
@@ -58,6 +59,12 @@ const UserProfile = () =>
 	if (userInfo === null) return <div>not found</div>;
 	else return(
 		<div className="user-profile">
+			{ isFollowingListWindowOpen
+				? <FollowWindow following uids={userInfo.following} closeFollowListWindow={closeFollowListWindow}/>
+				: isFollowersListWindowOpen
+					? <FollowWindow followers uids={userInfo.followers} closeFollowListWindow={closeFollowListWindow}/>
+					: null
+			}
 			<div className="upper">
 				<div className="personal-info">
 					<div className="profile-pic"><img src={userInfo.profilePic} alt={`${username}'s profile pic`}></img></div>
@@ -67,14 +74,14 @@ const UserProfile = () =>
 							{ currentUser
 								? userInfo.uid === currentUser.info.uid
 									? <Link to="/accounts/edit" className="edit-profile-btn outlined">Edit Profile</Link>
-									: <FollowButton target={userInfo} setIsFollowing={setIsFollowing} following={isFollowing}/>
+									: <FollowButton target={userInfo}/>
 								: <FollowButton target={userInfo}/>
 							}
 						</div>
 						<div className="follow">
 							<span className="posts"><span className="number">{userInfo.posts.length}</span> posts</span>
-							<span className="followers"><span className="number">{userInfo.followers.length}</span> followers</span>
-							<span className="following"><span className="number">{userInfo.following.length}</span> following</span>
+							<span className="followers" onClick={() => setIsFollowersListWindowOpen(true)}><span className="number">{userInfo.followers.length}</span> followers</span>
+							<span className="following" onClick={() => setIsFollowingListWindowOpen(true)}><span className="number">{userInfo.following.length}</span> following</span>
 						</div>
 						<div className="bio">
 							<span className="real-name">{userInfo.realName}</span>

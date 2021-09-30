@@ -109,6 +109,7 @@
 	align-items: center;
 
 	padding: 5rem 0;
+	margin: auto;
 }
 
 #email-verification-window .icon
@@ -205,6 +206,7 @@
 	align-items: center;
 
 	padding: 2.5rem 0;
+	margin: auto;
 }
 .verification-window.password-reset
 {

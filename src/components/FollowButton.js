@@ -1,15 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { doc, runTransaction } from "@firebase/firestore";
+import { doc, getDoc, runTransaction } from "@firebase/firestore";
 import { db } from "../firebase";
 import Loading from "../assets/misc/loading.jpg";
 import { setSnackbar } from "../state/actions/snackbar";
 
-const FollowButton = ({ following, target, setIsFollowing }) =>
+const FollowButton = ({ target }) =>
 {
-	const currentUser = useSelector(state => state.currentUser);
 	const dispatch = useDispatch();
+	const currentUser = useSelector(state => state.currentUser);
 	const [isLoading, setIsLoading] = useState(null);
+	const [isFollowing, setIsFollowing] = useState(false);
+	useEffect(() =>
+	{
+		const checkIfFollowing = async () =>
+		{
+			if (!currentUser) return;
+			const currentUserFollowing = await getDoc(doc(db, "users", currentUser.user.uid)).then(doc => doc.data().following);
+			if (currentUserFollowing.includes(target.uid)) setIsFollowing(true);
+		};
+		checkIfFollowing();
+	}, [currentUser, target]);
 
 	const follow = async () =>
 	{
@@ -117,7 +128,7 @@ const FollowButton = ({ following, target, setIsFollowing }) =>
 	};
 
 	if (isLoading) return <button className="follow-btn loading"><div><img src={Loading} alt="loading"></img></div></button>;
-	if (following)
+	if (isFollowing)
 		return <button className="follow-btn unfollow" onClick={unfollow}>Unfollow</button>;
 	else
 		return <button className="follow-btn follow" onClick={follow}>Follow</button>;
