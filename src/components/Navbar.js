@@ -1,10 +1,14 @@
+import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import nameLogo from "../assets/namelogo.png";
+import { auth, db } from "../firebase";
 import { signOut } from "@firebase/auth";
-import { auth } from "../firebase";
+import { collection, deleteField, doc, getDoc, getDocs, serverTimestamp,  updateDoc } from "@firebase/firestore";
+import OutsideClickHandler from "react-outside-click-handler";
 import { startLoading, stopLoading } from "../state/actions/isLoading";
-import { useState } from "react";
+import { setSnackbar } from "../state/actions/snackbar";
+import nameLogo from "../assets/namelogo.png";
+import Loading from "../assets/misc/loading.jpg";
 
 const Navbar = () =>
 {
@@ -33,7 +37,7 @@ const Navbar = () =>
 	return(
 		<nav id="main-navbar">
 			<div className="logo"><Link to="/"><img src={nameLogo} alt="Instadicey"></img></Link></div>
-			<li><input className="search" placeholder="Search"></input></li>
+			<li><Searchbar/></li>
 			<ul>
 				<li><Link to="/"><svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13v10h-6v-6h-6v6h-6v-10h-3l12-12 12 12h-3zm-1-5.907v-5.093h-3v2.093l3 3z"/></svg></Link></li>
 				<li><Link to="/inbox"><svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12.713l-11.985-9.713h23.97l-11.985 9.713zm0 2.574l-12-9.725v15.438h24v-15.438l-12 9.725z"/></svg></Link></li>
@@ -73,6 +77,158 @@ const Navbar = () =>
 				</li>
 			</ul>
 		</nav>
+	);
+};
+
+const Searchbar = () =>
+{
+	const dispatch = useDispatch();
+	const currentUser = useSelector(state => state.currentUser);
+	const [isLoading, setIsLoading] = useState(false);
+	const [usersCache, setUsersCache] = useState(null);
+	const [options, setOptions] = useState([]);
+	const [open, setOpen] = useState(false);
+	const [inputValue, setInputValue] = useState("");
+
+	const addToRecentSearches = async uid =>
+	{
+		await updateDoc(doc(db, "users", currentUser.user.uid),
+			{
+				["recentSearches." + uid]: {uid, timestamp: serverTimestamp()},
+			});
+	};
+
+	const showRecentSearches = async () =>
+	{
+		try
+		{
+			setIsLoading(true);
+			const unformattedRecentSearches = await getDoc(doc(db, "users", currentUser.user.uid)).then(doc => Object.values(doc.data().recentSearches));
+			unformattedRecentSearches.sort((a, b) => a.timestamp.seconds < b.timestamp.seconds ? 1 : -1);
+			const recentSearches = await Promise.all(unformattedRecentSearches.map(async user => await getDoc(doc(db, "users", user.uid)).then(doc => doc.data())));
+			setOptions(recentSearches);
+			setIsLoading(false);
+		} catch (err)
+		{
+			console.error(err);
+			dispatch(setSnackbar("Oops, try again later.", "error"));
+		}
+	};
+	
+	const removeFromRecentSearches = async (e, uid) =>
+	{
+		e.stopPropagation();
+		e.preventDefault();
+		
+		try
+		{
+			setOptions(options.filter(option => option.uid !== uid));
+			await updateDoc(doc(db, "users", currentUser.user.uid),
+				{
+					["recentSearches." + uid]: deleteField(),
+				});
+		} catch (err)
+		{
+			console.error(err);
+		}
+	};
+	
+	const clearRecentSearches = () =>
+	{
+		try
+		{
+			setOptions([]);
+			updateDoc(doc(db, "users", currentUser.user.uid), {recentSearches: []});
+		} catch (err)
+		{
+			console.log(err);
+			dispatch(setSnackbar("Oops, try again later.", "error"));
+		}
+	};
+	
+	const handleInputChange = async (e) =>
+	{
+		const newInput = e.target.value;
+		setInputValue(newInput);
+		if (newInput === "") return showRecentSearches();
+		
+		setIsLoading(true);
+		let users = usersCache || [];
+		if (users.length === 0)
+		{
+			try
+			{
+				const querySnapshot = await getDocs(collection(db, "users"));
+				querySnapshot.docs.forEach(doc => users.push(doc.data()));
+				setUsersCache(users);
+			} catch (err)
+			{
+				console.error(err);
+				dispatch(setSnackbar("Oops, try again later.", "error"));
+			}
+		}
+		users = users.filter(user => user.username.includes(newInput)).slice(0, 15);
+		setOptions(users);
+		setIsLoading(false);
+	};
+
+	const handleOnOpen = () =>
+	{
+		setOpen(true);
+		if (inputValue !== "") return;
+		showRecentSearches();
+	};
+	const handleOnClose = () => setOpen(false);
+
+	const handleElementClick = uid =>
+	{
+		console.log("a7a");
+		setOpen(false);
+		setInputValue("");
+		addToRecentSearches(uid);
+	};
+
+	return (
+		<OutsideClickHandler onOutsideClick={handleOnClose}>
+			<div className="searchbar-container">
+				<input 
+					className="search"
+					placeholder="Search"
+					onFocus={handleOnOpen}
+					onChange={handleInputChange}
+					value={inputValue}
+				/>
+				{
+					open
+						?
+						<div>
+							<span className="arrow"></span>
+							<ul className="search-list outlined">
+								{inputValue === "" && !isLoading ? <div className="recent">Recent<button className="text" onClick={clearRecentSearches}>Clear All</button></div> : null}
+								{
+									isLoading
+										? <div className="loading"><img src={Loading} alt="loading..."></img></div>
+										:
+										options.map(option =>
+											(
+												<li key={option.username}>
+													<Link to={`/${option.username}`} onClick={() => handleElementClick(option.uid)}>
+														<div className="img-container outlined round"><img src={option.profilePic} alt={`${option.username}'s Profile Pic'`}></img></div>
+														<div className="info">
+															<span className="username">{option.username}</span>
+															<span className="real-name">{option.realName} {currentUser.info.following.includes(option.uid) ? "• Following" : null}</span>
+														</div>
+														<div className="remove" onClick={e => removeFromRecentSearches(e, option.uid)}><svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" className="bi bi-x-lg" viewBox="0 0 16 16"><path d="M1.293 1.293a1 1 0 0 1 1.414 0L8 6.586l5.293-5.293a1 1 0 1 1 1.414 1.414L9.414 8l5.293 5.293a1 1 0 0 1-1.414 1.414L8 9.414l-5.293 5.293a1 1 0 0 1-1.414-1.414L6.586 8 1.293 2.707a1 1 0 0 1 0-1.414z"/></svg></div>
+													</Link>
+												</li>
+											))
+								}
+							</ul>
+						</div>
+						: null
+				}
+			</div>
+		</OutsideClickHandler>
 	);
 };
 

@@ -52,8 +52,21 @@
 	border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
+#main-navbar .searchbar-container
+{
+	position: relative;
+}
+
+#main-navbar .searchbar-container .arrow
+{
+	top: 125%;
+	right: 50%;
+	margin-right: -5px;
+}
+
 #main-navbar .search
 {
+	width: 240px;
 	background-color: #FAFAFA;
 	font-size: 1.125em;
 
@@ -69,9 +82,101 @@
 {
 	text-align: left;
 }
-.search:focus-visible
+#main-navbar.search:focus-visible
 {
 	outline: none;
+}
+
+#main-navbar .search-list
+{
+	width: 325px;
+	height: 325px;
+	max-height: 325px;
+	background-color: white;
+	overflow-y: auto;
+	
+	position: absolute;
+	top: calc(125% + 5px);
+	right: 50%;
+	
+	margin-right: -162.5px;
+	border-radius: 5px;
+}
+
+#main-navbar .search-list .recent
+{
+	height: 50px;
+	font-weight: 600;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 0 1rem;
+}
+
+#main-navbar .search-list .loading
+{
+	height: 25px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -12.5px 0 0 -12.5px;
+}
+
+#main-navbar .search-list li a
+{
+	display: flex;
+	position: relative;
+	padding: 0.5rem 1rem;
+}
+#main-navbar .search-list li:hover
+{
+	background-color: rgba(0, 0, 0, 0.025);
+}
+#main-navbar .search-list li:active
+{
+	background-color: rgba(0, 0, 0, 0.05);
+}
+
+#main-navbar .search-list li .img-container
+{
+	height: 50px;
+	width: 50px;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-right: 0.75rem;
+}
+
+#main-navbar .search-list li .info
+{
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+#main-navbar .search-list li .info .real-name
+{
+	color: #8e8e8e;
+}
+#main-navbar .search-list li .info .username
+{
+	font-weight: bold;
+}
+
+#main-navbar .search-list .remove
+{
+	width: 16px;
+	height: 16px;
+	filter: invert(80%) sepia(0%) saturate(231%) hue-rotate(242deg) brightness(80%) contrast(85%);
+	position: absolute;
+	right: 1rem;
+	top: 50%;
+	margin-top: -8px;
+}
+#main-navbar .search-list .remove svg
+{
+	width: 100%;
+	height: 100%;
 }
 
 #main-navbar > ul
@@ -143,18 +248,8 @@
 
 #main-navbar .profile .dropdown .arrow
 {
-	width: 10px;
-	height: 10px;
-	background-color: white;
-
-	transform: rotate(45deg);
-
-	position: absolute;
 	right: 22.5%;
 	top: -5px;
-
-	border-left: 1px solid rgba(0, 0, 0, 0.125);
-	border-top: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 #main-navbar .profile .dropdown ul li
