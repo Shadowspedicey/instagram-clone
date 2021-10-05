@@ -14,6 +14,7 @@ const UserProfile = () =>
 {
 	const { username } = useParams();
 
+	const dispatch = useDispatch();
 	const currentUser = useSelector(state => state.currentUser);
 	const [userInfo, setUserInfo] = useState(null);
 	const [isFollowingListWindowOpen, setIsFollowingListWindowOpen] = useState(false);
@@ -23,8 +24,6 @@ const UserProfile = () =>
 		setIsFollowingListWindowOpen(false);
 		setIsFollowersListWindowOpen(false);
 	};
-
-	const dispatch = useDispatch();
 
 	const getUserInfo = async () =>
 	{

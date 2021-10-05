@@ -207,23 +207,6 @@
 {
 	cursor: pointer;
 }
-.edit-profile .element.profile-pic .right button
-{
-	width: initial;
-	background: transparent;
-	cursor: pointer;
-	
-	color: #db0000;
-	font-weight: bold;
-	font-size: 0.95em;
-	
-	padding: 0;
-	border: none;
-}
-.edit-profile .element.profile-pic .right button:active
-{
-	color: #f07d7d !important;
-}
 
 .edit-profile .photo-changer-box-container
 {

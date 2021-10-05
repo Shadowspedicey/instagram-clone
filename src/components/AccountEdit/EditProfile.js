@@ -200,7 +200,7 @@ const EditProfile = () =>
 				</div>
 				<div className="right">
 					{currentUser.info.username}
-					<button onClick={openPhotoBox}>Change Profile Photo</button>
+					<button className="text" onClick={openPhotoBox}>Change Profile Photo</button>
 				</div>
 			</div>
 			<form onSubmit={handleSubmit}>
