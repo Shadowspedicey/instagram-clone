@@ -3,7 +3,7 @@ import { Link, useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { auth, db } from "../../firebase";
 import { createUserWithEmailAndPassword, sendEmailVerification, signOut } from "firebase/auth";
-import { collection, doc, getDocs, setDoc, query, where } from "@firebase/firestore";
+import { collection, doc, getDocs, setDoc, query, where, serverTimestamp } from "@firebase/firestore";
 import { startLoading, stopLoading } from "../../state/actions/isLoading";
 import { setUser } from "../../state/actions/currentUser";
 import ErrorMsg from "./ErrorMsg";
@@ -94,7 +94,7 @@ const SignUpPage = () =>
 				following: [],
 				posts: [],
 				uid: auth.currentUser.uid,
-				timestamp: new Date().getTime(),
+				timestamp: serverTimestamp(),
 			};
 			const userDocRef = doc(db, "users", auth.currentUser.uid);
 			await setDoc(userDocRef, info);
