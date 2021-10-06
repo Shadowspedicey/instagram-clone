@@ -89,7 +89,7 @@
 
 #main-navbar .search-list
 {
-	width: 325px;
+	width: 350px;
 	height: 325px;
 	max-height: 325px;
 	background-color: white;
@@ -154,13 +154,20 @@
 	flex-direction: column;
 	justify-content: center;
 }
-#main-navbar .search-list li .info .real-name
-{
-	color: #8e8e8e;
-}
 #main-navbar .search-list li .info .username
 {
 	font-weight: bold;
+}
+#main-navbar .search-list li .info .verified
+{
+	width: 16px;
+	height: 16px;
+	margin: auto 0;
+	margin-left: 8px;
+}
+#main-navbar .search-list li .info .real-name
+{
+	color: #8e8e8e;
 }
 
 #main-navbar .search-list .remove

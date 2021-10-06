@@ -72,6 +72,7 @@ const UserProfile = () =>
 					<div className="info">
 						<div className="name">
 							{userInfo.username}
+							{userInfo.verified ? <div className="verified" title="Verified"></div> : null}
 							{ currentUser
 								? userInfo.uid === currentUser.info.uid
 									? <Link to="/accounts/edit" className="edit-profile-btn outlined">Edit Profile</Link>

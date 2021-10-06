@@ -68,9 +68,14 @@
 {
 	font-size: 1.5em;
 	font-weight: 300;
-	
 	display: flex;
 	align-items: flex-end;
+}
+
+.user-profile .upper .personal-info .info .name .verified
+{
+	margin: auto 0;
+	margin-left: 10px;
 }
 
 .follow-btn
@@ -201,10 +206,16 @@ a.edit-profile-btn
 	flex-direction: column;
 	font-weight: 500;
 }
-.follow-list-window .person .info span
+.follow-list-window .person .info .real-name
 {
 	font-weight: 400;
 	color: #8e8e8e;
+}
+.follow-list-window .person .info .verified
+{
+	width: 16px;
+	height: 16px;
+	margin-left: 8px;
 }
 
 .follow-list-window ul.loading

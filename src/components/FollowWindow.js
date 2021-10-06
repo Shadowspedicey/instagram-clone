@@ -53,8 +53,8 @@ const FollowWindow = props =>
 									<div className="profile">
 										<Link to={`${person.username}`}><div className="pic"><img src={person.profilePic} alt={`${person.username}'s Pic`}></img></div></Link>
 										<div className="info">
-											<Link to={`/${person.username}`} className="real-name">{person.username}</Link>
-											<span className="username">{person.realName}</span>
+											<div style={{display: "flex"}}><Link to={`/${person.username}`} className="username">{person.username}</Link> {person.verified ? <div className="verified" title="Verified"></div> : null}</div>
+											<span className="real-name">{person.realName}</span>
 										</div>
 									</div>
 									<FollowButton target={person} startLoading={() => setIsLoading(true)} stopLoading={() => setIsLoading(false)}/>
