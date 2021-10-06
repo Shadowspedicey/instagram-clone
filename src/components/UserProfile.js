@@ -35,6 +35,8 @@ const UserProfile = () =>
 
 	useEffect(() =>
 	{
+		closeFollowListWindow();
+
 		const fetchUserInfo = async () =>
 		{
 			dispatch(startLoading());

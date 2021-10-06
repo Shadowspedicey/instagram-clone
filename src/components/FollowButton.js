@@ -16,10 +16,14 @@ const FollowButton = ({ target }) =>
 		const checkIfFollowing = async () =>
 		{
 			if (!currentUser) return;
+			setIsLoading(true);
 			const currentUserFollowing = await getDoc(doc(db, "users", currentUser.user.uid)).then(doc => doc.data().following);
 			if (currentUserFollowing.includes(target.uid)) setIsFollowing(true);
+			else setIsFollowing(false);
+			setIsLoading(false);
 		};
 		checkIfFollowing();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [currentUser, target]);
 
 	const follow = async () =>
