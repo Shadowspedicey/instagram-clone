@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { auth, db } from "../firebase";
@@ -7,16 +7,26 @@ import { collection, deleteField, doc, getDoc, getDocs, serverTimestamp,  update
 import OutsideClickHandler from "react-outside-click-handler";
 import { startLoading, stopLoading } from "../state/actions/isLoading";
 import { setSnackbar } from "../state/actions/snackbar";
+import { setNewPost } from "../state/actions/newPost";
 import nameLogo from "../assets/namelogo.png";
 import Loading from "../assets/misc/loading.jpg";
 
 const Navbar = () =>
 {
+	const history = useHistory();
+	const dispatch = useDispatch();
+	const addPostButton = useRef();
 	const { username, profilePic } = useSelector(state => state.currentUser.info) || "";
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [playDropdownClose, setPlayDropdownClose] = useState(false);
-	const dispatch = useDispatch();
-	const history = useHistory();
+
+	const handleNewPostChange = input =>
+	{
+		const postPhoto = input.target.files[0];
+		addPostButton.current.value = null;
+		dispatch(setNewPost(postPhoto));
+		history.push("/create/style");
+	};
 
 	const openDropdown = () => setIsDropdownOpen(true);
 	const closeDropdown = e =>
@@ -39,8 +49,10 @@ const Navbar = () =>
 			<div className="logo"><Link to="/"><img src={nameLogo} alt="Instadicey"></img></Link></div>
 			<li><Searchbar/></li>
 			<ul>
-				<li><Link to="/"><svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13v10h-6v-6h-6v6h-6v-10h-3l12-12 12 12h-3zm-1-5.907v-5.093h-3v2.093l3 3z"/></svg></Link></li>
-				<li><Link to="/inbox"><svg className="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12.713l-11.985-9.713h23.97l-11.985 9.713zm0 2.574l-12-9.725v15.438h24v-15.438l-12 9.725z"/></svg></Link></li>
+				<li><button className="add-post icon" onClick={() => addPostButton.current.click()}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></button></li>
+				<input accept="image/png, image/jpg, image/jpeg, image/pjpeg, image/jfif, image/pjp" type="file" ref={addPostButton} onChange={handleNewPostChange}></input>
+				<li><Link to="/" className="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13v10h-6v-6h-6v6h-6v-10h-3l12-12 12 12h-3zm-1-5.907v-5.093h-3v2.093l3 3z"/></svg></Link></li>
+				<li><Link to="/inbox" className="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12.713l-11.985-9.713h23.97l-11.985 9.713zm0 2.574l-12-9.725v15.438h24v-15.438l-12 9.725z"/></svg></Link></li>
 				<li className="profile" onClick={openDropdown}>
 					<div className="icon"><img src={profilePic} alt="Profile Pic"></img></div>
 					{ isDropdownOpen &&

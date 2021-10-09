@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { Route, Switch } from "react-router";
+import { useEffect, useState } from "react";
+import { Route, Switch, useLocation } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { auth, db } from "./firebase";
 import { onAuthStateChanged } from "@firebase/auth";
@@ -19,6 +19,8 @@ import AccountVerification from "./components/AccountAuth/AccountVerification";
 
 import Logged from "./components/Logged";
 import UserProfile from "./components/UserProfile";
+import newPost from "./components/Posts/NewPost";
+import PostPage from "./components/Posts/PostPage";
 
 import AccountEdit from "./components/AccountEdit/AccountEdit";
 import "./styles/App.css";
@@ -26,10 +28,20 @@ import "./styles/App.css";
 const App = () =>
 {
 	const dispatch = useDispatch();
+	const location = useLocation();
+	const [navbarVisibility, setNavbarVisibility] = useState(true);
 	const isLoggedIn = useSelector(state => state.currentUser);
 	const isLoading = useSelector(state => state.loading);
 	const snackbar = useSelector(state => state.snackbar);
 	snackbar.handleClose = () => dispatch(closeSnackbar());
+
+	useEffect(() =>
+	{
+		const url = location.pathname;
+		if (url === "/create/style")
+			setNavbarVisibility(false);
+		else setNavbarVisibility(true);
+	}, [location.pathname]);
 
 	const checkIfLoggedIn = () =>
 	{
@@ -49,16 +61,16 @@ const App = () =>
 		});
 	};
 	useEffect(checkIfLoggedIn, [dispatch]);
-	//useEffect(() => signOut(auth), []);
 
 	return (
-		<div className="App" style={isLoggedIn ? { paddingTop: "75px" } : null}>
-			{ isLoggedIn ? <Navbar/> : null }
+		<div className="App" style={isLoggedIn && navbarVisibility ? { paddingTop: "75px" } : null}>
+			{ isLoggedIn && navbarVisibility ? <Navbar/> : null }
 			{
 				isLoading
 					? <Route path="/" component={LoadingPage}></Route>
 					: null
 			}
+
 			<Switch>
 				<Route exact path="/">
 					{
@@ -74,7 +86,11 @@ const App = () =>
 				<Route path="/accounts" component={AccountEdit}></Route>
 
 				<Route exact path="/:username" component={UserProfile}></Route>
+				<Route exact path="/create/style" component={newPost}></Route>
+
+				<Route exact path="/p/:postID" component={PostPage}></Route>
 			</Switch>
+
 			<Snackbar
 				open={snackbar.open}
 				message={snackbar.message}

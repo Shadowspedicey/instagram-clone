@@ -71,6 +71,19 @@ button:active
 	background-color: hsl(0, 77%, 60%);
 }
 
+button.icon
+{
+	width: initial;
+	background: initial;
+	color: initial;
+	padding: 0;
+	border-radius: initial;
+}
+button.icon:active
+{
+	color: initial;
+}
+
 button.text
 {
 	width: initial;
@@ -139,4 +152,25 @@ span.arrow
 	width: 24px;
 	height: 24px;
 	margin-left: 10px;
+}
+
+.profile-pic
+{
+	width: 32px;
+	height: 32px;
+	overflow: hidden;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 50%;
+	border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+span.timestamp
+{
+	cursor: default;
+	color: #8e8e8e;
+	font-weight: 500;
+	font-size: 0.75em;
+	margin-top: 0.75rem;
 }
