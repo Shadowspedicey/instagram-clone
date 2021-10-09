@@ -92,7 +92,7 @@ const SignUpPage = () =>
 				bio: "",
 				followers: [],
 				following: [],
-				posts: [],
+				saved: [],
 				uid: auth.currentUser.uid,
 				timestamp: serverTimestamp(),
 			};

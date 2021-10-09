@@ -9,7 +9,6 @@ import FollowButton from "./FollowButton";
 import FollowWindow from "./FollowWindow";
 import "./user-profile.css";
 
-//TODO: titles and loading titles
 const UserProfile = () =>
 {
 	const { username } = useParams();
@@ -17,6 +16,7 @@ const UserProfile = () =>
 	const dispatch = useDispatch();
 	const currentUser = useSelector(state => state.currentUser);
 	const [userInfo, setUserInfo] = useState(null);
+	const [userPosts, setUserPosts] = useState([]);
 	const [isFollowingListWindowOpen, setIsFollowingListWindowOpen] = useState(false);
 	const [isFollowersListWindowOpen, setIsFollowersListWindowOpen] = useState(false);
 	const closeFollowListWindow = () =>
@@ -33,6 +33,13 @@ const UserProfile = () =>
 		return querySnapshot;
 	};
 
+	const getUsersPosts = async uid =>
+	{
+		const querySnapshot = await getDocs(collection(db, "users", uid, "user_posts"));
+		const posts = querySnapshot.docs.map(doc => doc.data());
+		return posts;
+	};
+
 	useEffect(() =>
 	{
 		closeFollowListWindow();
@@ -41,9 +48,11 @@ const UserProfile = () =>
 		{
 			dispatch(startLoading());
 			const querySnapshot = await getUserInfo();
-			console.log(querySnapshot);
-			if (querySnapshot.size === 1) setUserInfo(querySnapshot.docs[0].data());
+			const userData = querySnapshot.docs[0].data();
+			if (querySnapshot.size === 1) setUserInfo(userData);
 			else setUserInfo(null);
+			const posts = await getUsersPosts(userData.uid);
+			setUserPosts(posts);
 			dispatch(stopLoading());
 		};
 		fetchUserInfo();
@@ -61,9 +70,9 @@ const UserProfile = () =>
 	else return(
 		<div className="user-profile">
 			{ isFollowingListWindowOpen
-				? <FollowWindow following uids={userInfo.following} closeFollowListWindow={closeFollowListWindow}/>
+				? <FollowWindow title="Following" uids={userInfo.following} closeFollowListWindow={closeFollowListWindow}/>
 				: isFollowersListWindowOpen
-					? <FollowWindow followers uids={userInfo.followers} closeFollowListWindow={closeFollowListWindow}/>
+					? <FollowWindow title="Followers" uids={userInfo.followers} closeFollowListWindow={closeFollowListWindow}/>
 					: null
 			}
 			<div className="upper">
@@ -81,7 +90,7 @@ const UserProfile = () =>
 							}
 						</div>
 						<div className="follow">
-							<span className="posts"><span className="number">{userInfo.posts.length}</span> posts</span>
+							<span className="posts"><span className="number">{userPosts.length}</span> posts</span>
 							<span className="followers" onClick={() => setIsFollowersListWindowOpen(true)}><span className="number">{userInfo.followers.length}</span> followers</span>
 							<span className="following" onClick={() => setIsFollowingListWindowOpen(true)}><span className="number">{userInfo.following.length}</span> following</span>
 						</div>
