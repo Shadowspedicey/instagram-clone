@@ -24,10 +24,6 @@
 {
 	width: 175px;
 	height: 175px;
-	overflow: hidden;
-	display: flex;
-	justify-content: center;
-	align-items: center;
 	margin-right: 7.5rem;
 	border-radius: 50%;
 	border: 1px solid rgba(206, 206, 206, 0.25);
@@ -128,7 +124,7 @@ a.edit-profile-btn
 
 .follow-list-window
 {
-	width: 400px;
+	width: 425px;
 	height: 400px;
 	background-color: white;
 	overflow: hidden;
@@ -159,6 +155,7 @@ a.edit-profile-btn
 
 .follow-list-window ul
 {
+	overflow-x: hidden;
 	overflow-y: auto;
 	padding: 0 1rem;
 }
@@ -190,14 +187,11 @@ a.edit-profile-btn
 	display: flex;
 }
 
-.follow-list-window .person .pic
+.follow-list-window .person .profile-pic
 {
 	width: 35px;
 	height: 35px;
-	overflow: hidden;
 	margin-right: 1rem;
-	border-radius: 50%;
-	border: 1px solid rgba(0, 0, 0, 0.125);
 }
 
 .follow-list-window .person .info

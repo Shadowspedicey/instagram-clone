@@ -5,7 +5,7 @@ import { collection, doc, getDoc, getDocs, query, updateDoc, where } from "@fire
 import { ref, uploadBytes, getDownloadURL } from "@firebase/storage";
 import { setSnackbar } from "../../state/actions/snackbar";
 import Loading from "../../assets/misc/loading.jpg";
-import { EmailAuthProvider, reauthenticateWithCredential, sendEmailVerification, signOut, updateEmail } from "@firebase/auth";
+import { EmailAuthProvider, reauthenticateWithCredential, sendEmailVerification, updateEmail } from "@firebase/auth";
 import { setUser } from "../../state/actions/currentUser";
 
 const EditProfile = () =>
