@@ -1,13 +1,15 @@
 import { collection, getDocs, query, where } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router";
-import { Link } from "react-router-dom";
+import { Route, Switch, useParams } from "react-router";
+import { Link, NavLink } from "react-router-dom";
 import { db } from "../firebase";
 import { startLoading, stopLoading } from "../state/actions/isLoading";
 import FollowButton from "./FollowButton";
 import FollowWindow from "./FollowWindow";
+import PostCard from "./Posts/PostCard";
 import "./user-profile.css";
+import VerifiedTick from "./Verified";
 
 const UserProfile = () =>
 {
@@ -66,7 +68,7 @@ const UserProfile = () =>
 			: document.title = `@${userInfo.username} • Instadicey`;
 	}, [userInfo]);
 
-	if (userInfo === null) return <div>not found</div>;
+	if (!userInfo || !currentUser) return <div>not found</div>;
 	else return(
 		<div className="user-profile">
 			{ isFollowingListWindowOpen
@@ -81,7 +83,7 @@ const UserProfile = () =>
 					<div className="info">
 						<div className="name">
 							{userInfo.username}
-							{userInfo.verified ? <div className="verified" title="Verified"></div> : null}
+							<VerifiedTick user={userInfo}/>
 							{ currentUser
 								? userInfo.uid === currentUser.info.uid
 									? <Link to="/accounts/edit" className="edit-profile-btn outlined">Edit Profile</Link>
@@ -101,6 +103,30 @@ const UserProfile = () =>
 					</div>
 				</div>
 			</div>
+			<nav>
+				<ul>
+					<li><NavLink exact to={`/${userInfo.username}`} activeClassName="selected"><svg xmlns="http://www.w3.org/2000/svg" className="icon" viewBox="0 0 24 24"><path d="M6 6h-6v-6h6v6zm9-6h-6v6h6v-6zm9 0h-6v6h6v-6zm-18 9h-6v6h6v-6zm9 0h-6v6h6v-6zm9 0h-6v6h6v-6zm-18 9h-6v6h6v-6zm9 0h-6v6h6v-6zm9 0h-6v6h6v-6z"/></svg> POSTS</NavLink></li>
+					{currentUser.user.uid === userInfo.uid && <li><NavLink exact to={`/${userInfo.username}/saved`} activeClassName="selected"><svg xmlns="http://www.w3.org/2000/svg" className="icon" viewBox="0 0 24 24"><path d="M16 2v17.582l-4-3.512-4 3.512v-17.582h8zm2-2h-12v24l6-5.269 6 5.269v-24z"/></svg> SAVED</NavLink></li>}
+				</ul>
+			</nav>
+			<Switch>
+				<Route exact path="/:username">
+					<div className="post-cards-container">
+						{
+							userPosts.map(post =>
+								<PostCard postID={post.id} key={post.id}/>)
+						}
+					</div>
+				</Route>
+				<Route exact path="/:username/saved">
+					<div className="posts-cards-container">
+						{ currentUser.user.uid === userInfo.uid &&
+							userInfo.saved.map(post =>
+								<PostCard postID={post} key={post}/>)
+						}
+					</div>
+				</Route>
+			</Switch>
 		</div>
 	);
 };

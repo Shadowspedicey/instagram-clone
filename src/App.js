@@ -86,6 +86,7 @@ const App = () =>
 				<Route path="/accounts" component={AccountEdit}></Route>
 
 				<Route exact path="/:username" component={UserProfile}></Route>
+				<Route exact path="/:username/saved" component={UserProfile}></Route>
 				<Route exact path="/create/style" component={newPost}></Route>
 
 				<Route exact path="/p/:postID" component={PostPage}></Route>

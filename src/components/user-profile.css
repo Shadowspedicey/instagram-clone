@@ -1,125 +1,10 @@
 .user-profile
 {
 	height: 100%;
-	width: 1050px;
+	max-width: 1050px;
+	width: 100%;
 	margin-top: 50px;
-}
-
-.user-profile .upper
-{
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-
-	position: relative;
-	right: 100px;
-}
-
-.user-profile .upper .personal-info
-{
-	display: flex;
-}
-
-.user-profile .upper .personal-info .profile-pic
-{
-	width: 175px;
-	height: 175px;
-	margin-right: 7.5rem;
-	border-radius: 50%;
-	border: 1px solid rgba(206, 206, 206, 0.25);
-}
-
-.user-profile .upper .personal-info .info
-{
-	position: relative;
-	top: 15px;
-}
-
-.user-profile .upper .personal-info .info > div
-{
-	margin-bottom: 1rem;
-}
-
-/* posts, followers and following text */
-.user-profile .upper .personal-info .follow > span
-{
-	margin-right: 2rem;
-}
-.user-profile .upper .personal-info .follow .followers,
-.user-profile .upper .personal-info .follow .following
-{
-	cursor: pointer;
-}
-.user-profile .upper .personal-info .follow .followers:active,
-.user-profile .upper .personal-info .follow .following:active
-{
-	color: rgba(0, 0, 0, 0.5);
-}
-.user-profile .upper .personal-info .follow > span .number
-{
-	font-weight: bold;
-}
-
-.user-profile .upper .personal-info .info .name
-{
-	font-size: 1.5em;
-	font-weight: 300;
-	display: flex;
-	align-items: flex-end;
-}
-
-.user-profile .upper .personal-info .info .name .verified
-{
-	margin: auto 0;
-	margin-left: 10px;
-}
-
-.follow-btn
-{
-	width: 95px;
-	height: 33px !important;
-	background-color: #db0000;
-	cursor: pointer;
-
-	color: white;
-	font-size: 15px;
-	font-weight: bold;
-
-	/* padding: 0.3rem 0.5rem; */
-	padding: 0.5rem 0.75rem;
-	margin-left: 1rem;
-	border: none;
-	border-radius: 4px;
-}
-
-a.edit-profile-btn
-{
-	color: black;
-	background-color: #FAFAFA !important;
-
-	cursor: pointer;
-	font-size: 0.65em;
-	font-weight: 500;
-	
-	padding: 0.25rem 0.5rem;
-	margin-left: 1rem;
-	border-radius: 5px;
-}
-
-.user-profile .upper .personal-info .bio
-{
-	width: 330px;
-	word-break: break-all;
-}
-
-.user-profile .upper .personal-info .bio .real-name
-{
-	font-weight: bold;
-}
-.user-profile .upper .personal-info .bio .bio-text
-{
-	max-width: 330px;
-	margin-top: 0.75rem;
+	padding: 0 1.5rem;
 }
 
 .follow-list-window
@@ -235,6 +120,162 @@ a.edit-profile-btn
 	height: 15px;
 	background-color: hsl(0, 0%, 80%);
 	border-radius: 25px;
+}
+
+.user-profile .upper
+{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 3rem;
+}
+
+.user-profile .upper .personal-info
+{
+	width: 100%;
+	max-width: 750px;
+	display: flex;
+	justify-content: space-between;
+	margin-right: 100px;
+}
+
+.user-profile .upper .personal-info .profile-pic
+{
+	width: 175px;
+	height: 175px;
+	border-radius: 50%;
+	border: 1px solid rgba(206, 206, 206, 0.25);
+}
+
+.user-profile .upper .personal-info .info
+{
+	position: relative;
+	top: 15px;
+}
+
+.user-profile .upper .personal-info .info > div
+{
+	margin-bottom: 1rem;
+}
+
+/* posts, followers and following text */
+.user-profile .upper .personal-info .follow > span
+{
+	margin-right: 2rem;
+}
+.user-profile .upper .personal-info .follow .followers,
+.user-profile .upper .personal-info .follow .following
+{
+	cursor: pointer;
+}
+.user-profile .upper .personal-info .follow .followers:active,
+.user-profile .upper .personal-info .follow .following:active
+{
+	color: rgba(0, 0, 0, 0.5);
+}
+.user-profile .upper .personal-info .follow > span .number
+{
+	font-weight: bold;
+}
+
+.user-profile .upper .personal-info .info .name
+{
+	font-size: 1.5em;
+	font-weight: 300;
+	display: flex;
+	align-items: flex-end;
+}
+
+.user-profile .upper .personal-info .info .name .verified
+{
+	margin: auto 0;
+	margin-left: 10px;
+}
+
+.follow-btn
+{
+	width: 95px;
+	height: 33px !important;
+	background-color: #db0000;
+	cursor: pointer;
+
+	color: white;
+	font-size: 15px;
+	font-weight: bold;
+
+	/* padding: 0.3rem 0.5rem; */
+	padding: 0.5rem 0.75rem;
+	margin-left: 1rem;
+	border: none;
+	border-radius: 4px;
+}
+
+a.edit-profile-btn
+{
+	color: black;
+	background-color: #FAFAFA !important;
+
+	cursor: pointer;
+	font-size: 0.65em;
+	font-weight: 500;
+	
+	padding: 0.25rem 0.5rem;
+	margin-left: 1rem;
+	border-radius: 5px;
+}
+
+.user-profile .upper .personal-info .bio
+{
+	width: 330px;
+	word-break: break-all;
+}
+
+.user-profile .upper .personal-info .bio .real-name
+{
+	font-weight: bold;
+}
+.user-profile .upper .personal-info .bio .bio-text
+{
+	max-width: 330px;
+	white-space: pre-line;
+	margin-top: 0.75rem;
+}
+
+.user-profile nav
+{
+	border-top: 1px solid rgba(0, 0, 0, 0.125);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.user-profile nav ul
+{
+	display: flex;
+}
+.user-profile nav li
+{
+	padding: 1rem 0;
+	margin: 0 1rem;
+}
+.user-profile nav li a
+{
+	opacity: 0.5;
+	font-weight: 500;
+	padding: 1rem 0;
+}
+.user-profile nav li a.selected
+{
+	opacity: 1;
+	border-top: 1px solid black;
+}
+.user-profile nav li a:active
+{
+	opacity: 0.25;
+}
+.user-profile nav li .icon
+{
+	width: 14px;
+	height: 14px;
 }
 
 @keyframes opacityPulse
