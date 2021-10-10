@@ -9,7 +9,7 @@ import FollowButton from "./FollowButton";
 import FollowWindow from "./FollowWindow";
 import PostCard from "./Posts/PostCard";
 import "./user-profile.css";
-import VerifiedTick from "./Verified";
+import VerifiedTick from "./VerifiedTick";
 
 const UserProfile = () =>
 {

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { db } from "../../firebase";
-import VerifiedTick from "../Verified";
+import VerifiedTick from "../VerifiedTick";
 import Like from "./Like";
 
 const Comment = ({ commentData, postPath, noPhoto, noTimestamp, noLike, isCaption, setLikesWindow, refreshComments}) =>

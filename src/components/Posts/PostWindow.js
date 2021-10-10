@@ -12,7 +12,7 @@ import FollowWindow from "../FollowWindow";
 import Like from "./Like";
 import Comment from "./Comment";
 import Save from "./Save";
-import VerifiedTick from "../Verified";
+import VerifiedTick from "../VerifiedTick";
 
 const PostWindow = ({postID}) =>
 {
