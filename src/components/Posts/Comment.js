@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { db } from "../../firebase";
+import VerifiedTick from "../Verified";
 import Like from "./Like";
 
 const Comment = ({ commentData, postPath, noPhoto, noTimestamp, noLike, isCaption, setLikesWindow, refreshComments}) =>
@@ -52,6 +53,7 @@ const Comment = ({ commentData, postPath, noPhoto, noTimestamp, noLike, isCaptio
 			<div className="info">
 				<div style={{display: "inline-block"}}>
 					<Link to={`/${commenterInfo.username}`} className="username">{commenterInfo.username}</Link>
+					<VerifiedTick size={12.5} user={commenterInfo} marginLeft={0} marginRight={7.5}/>
 					<span className="text">{commentData.comment}</span>
 				</div>
 				<div>

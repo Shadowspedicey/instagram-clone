@@ -192,7 +192,7 @@ const EditProfile = () =>
 						</div>
 					</div>
 			}
-			<div className="element profile-pic">
+			<div className="element profile-pic-container">
 				<div className="img-container outlined left" onClick={openPhotoBox}>
 					{ isPhotoLoading && <div className="loading"><img src={Loading} alt="loading"></img></div>}
 					<img src={currentUser.info.profilePic} alt={`${currentUser.info.username}'s profile pic'`}></img>

@@ -146,26 +146,26 @@
 	padding: 0.375rem;
 }
 
-.account-element .element.profile-pic
+.account-element .element.profile-pic-container
 {
 	height: 37.5px;
 	position: relative;
 	left: 65px;
 }
-.account-element .element.profile-pic .left
+.account-element .element.profile-pic-container .left
 {
 	width: 40px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 }
-.account-element .element.profile-pic .left .loading
+.account-element .element.profile-pic-container .left .loading
 {
 	background-color: transparent;
 	height: 100%;
 	position: absolute;
 }
-.account-element .element.profile-pic .right
+.account-element .element.profile-pic-container .right
 {
 	align-items: flex-start;
 	font-weight: 500;
@@ -203,7 +203,7 @@
 	width: 73px;
 }
 
-.edit-profile .element.profile-pic .left
+.edit-profile .element.profile-pic-container .left
 {
 	cursor: pointer;
 }
@@ -262,7 +262,7 @@
 	color: #db0000;
 }
 
-.account-edit .change-password .element.profile-pic .right
+.account-edit .change-password .element.profile-pic-container .right
 {
 	justify-content: center;
 }

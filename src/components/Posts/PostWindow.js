@@ -12,6 +12,7 @@ import FollowWindow from "../FollowWindow";
 import Like from "./Like";
 import Comment from "./Comment";
 import Save from "./Save";
+import VerifiedTick from "../Verified";
 
 const PostWindow = ({postID}) =>
 {
@@ -122,6 +123,7 @@ const PostWindow = ({postID}) =>
 				<div className="poster">
 					<Link to={`/${userInfo.username}`}><div className="profile-pic outlined round"><img src={userInfo.profilePic} alt="Profile Pic"></img></div></Link>
 					<Link to={`/${userInfo.username}`} className="username">{userInfo.username}</Link>
+					<VerifiedTick size={15} user={userInfo} marginLeft={7.5}/>
 					{currentUser.info.uid === userInfo.uid ? null : <FollowButton target={userInfo}></FollowButton>}
 				</div>
 				<div className="comments">

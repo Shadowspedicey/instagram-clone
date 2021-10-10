@@ -93,6 +93,7 @@ const SignUpPage = () =>
 				followers: [],
 				following: [],
 				saved: [],
+				recentSearches: [],
 				uid: auth.currentUser.uid,
 				timestamp: serverTimestamp(),
 			};

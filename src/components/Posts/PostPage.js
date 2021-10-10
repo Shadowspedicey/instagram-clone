@@ -33,6 +33,7 @@ const PostPage = () =>
 	useEffect(() =>
 	{
 		checkIfPostExists();
+	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [postID]);
 
 	if (!postExists) return null;

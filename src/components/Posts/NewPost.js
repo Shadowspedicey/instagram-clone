@@ -50,6 +50,7 @@ const NewPost = () =>
 	{
 		try
 		{
+			dispatch(startLoading());
 			const postID = nanoid(32);
 			const caption = captionRef.current.value;
 			const croppedPhoto = await getCroppedImg(photoUrl, croppedAreaPixels, rotation);
@@ -71,6 +72,7 @@ const NewPost = () =>
 			history.push(`/p/${postID}`);
 		} catch (err)
 		{
+			dispatch(stopLoading());
 			console.error(err);
 			dispatch(setSnackbar("Oops, try again later.", "error"));
 		}

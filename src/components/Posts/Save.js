@@ -8,7 +8,7 @@ const Save = ({size = 25, target}) =>
 {
 	const dispatch = useDispatch();
 	const currentUser = useSelector(state => state.currentUser);
-	const [isSaved, setIsSaved] = useState(true);
+	const [isSaved, setIsSaved] = useState(false);
 	useEffect(() =>
 	{
 		const checkIfSaved = async () =>

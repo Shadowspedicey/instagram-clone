@@ -79,7 +79,7 @@ const Navbar = () =>
 											Settings
 										</Link>
 									</li>
-									<li className="log-out" onClick={() => { closeDropdown(); logOut(); }}>
+									<li className="log-out" onClick={() => { logOut(); }}>
 										Log Out
 									</li>
 								</ul>
