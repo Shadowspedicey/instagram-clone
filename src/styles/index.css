@@ -161,3 +161,55 @@ span.timestamp
 	font-size: 0.75em;
 	margin-top: 0.75rem;
 }
+
+.dialog-box-container
+{
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(0, 0, 0, 0.5);
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	position: fixed;
+	top: 0;
+	left: 0;
+	z-index: 99999;
+}
+.dialog-box
+{
+	width: 400px;
+	background-color: white;
+	overflow: hidden;
+	animation: shrinkToNormal 50ms ease-in-out 0s forwards;
+
+	border-radius: 25px;
+}
+.dialog-box h2
+{
+	font-size: 1.125em;
+	text-align: center;
+	font-weight: 500;
+	margin: 2rem 0;
+}
+.dialog-box button
+{
+	width: inherit;
+	color: black;
+	padding: 1rem 0 !important;
+	border-top: 1px solid rgba(0, 0, 0, 0.125);
+}
+.dialog-box button:active
+{
+	color: inherit !important;
+	background-color: rgba(0, 0, 0, 0.075);
+}
+.dialog-box button.remove
+{
+	color: #db0000;
+}
+.dialog-box button.remove:active
+{
+	color: #db0000 !important;
+}

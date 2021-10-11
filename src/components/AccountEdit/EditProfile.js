@@ -183,12 +183,12 @@ const EditProfile = () =>
 	return(
 		<div className="account-element edit-profile">
 			{ isPhotoChangerBoxOpen &&
-					<div className="photo-changer-box-container" onClick={closePhotoBox}>
-						<div className="photo-changer-box" onClick={e => e.stopPropagation()}>
+					<div className="dialog-box-container" onClick={closePhotoBox}>
+						<div className="dialog-box" onClick={e => e.stopPropagation()}>
 							<h2>Change Profile Photo</h2>
-							<button className="upload" onClick={openPhotoUpload}>Upload Photo</button>
-							<button className="remove" onClick={removePhoto}>Remove Current Photo</button>
-							<button className="cancel" onClick={closePhotoBox}>Cancel</button>
+							<button className="upload text" onClick={openPhotoUpload}>Upload Photo</button>
+							<button className="remove text" onClick={removePhoto}>Remove Current Photo</button>
+							<button className="cancel text" onClick={closePhotoBox}>Cancel</button>
 						</div>
 					</div>
 			}

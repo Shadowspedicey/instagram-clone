@@ -69,9 +69,9 @@ const SignUpPage = () =>
 		e.preventDefault();
 		if (!isInfoValid) return;
 		
-		const email = emailRef.current.value;
+		const email = emailRef.current.value.toLowerCase();
 		const realName = realNameRef.current.value;
-		const username = usernameRef.current.value;
+		const username = usernameRef.current.value.toLowerCase();
 		const password = passwordRef.current.value;
 		
 		try

@@ -38,7 +38,7 @@ const UserProfile = () =>
 	const getUsersPosts = async uid =>
 	{
 		const querySnapshot = await getDocs(collection(db, "users", uid, "user_posts"));
-		const posts = querySnapshot.docs.map(doc => doc.data());
+		const posts = querySnapshot.docs.map(doc => doc.data()).sort((a, b) => a.timestamp.seconds > b.timestamp.seconds ? -1 : 1);
 		return posts;
 	};
 

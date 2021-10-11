@@ -208,58 +208,13 @@
 	cursor: pointer;
 }
 
-.edit-profile .photo-changer-box-container
-{
-	width: 100vw;
-	height: 100vh;
-	background-color: rgba(0, 0, 0, 0.5);
-
-	display: flex;
-	justify-content: center;
-	align-items: center;
-
-	position: fixed;
-	top: 0;
-	left: 0;
-	z-index: 99999;
-}
-
-.edit-profile .photo-changer-box
-{
-	width: 400px;
-	background-color: white;
-	overflow: hidden;
-	animation: shrinkToNormal 50ms ease-in-out 0s forwards;
-
-	border-radius: 25px;
-}
-.edit-profile .photo-changer-box h2
-{
-	font-size: 1.125em;
-	text-align: center;
-	font-weight: 500;
-	margin: 2rem 0;
-}
-.edit-profile .photo-changer-box button:active
-{
-	background-color: rgba(0, 0, 0, 0.075);
-}
-.edit-profile .photo-changer-box button
-{
-	background-color: white;
-	color: black;
-	font-weight: 700;
-	padding: 1rem 0;
-	border-top: 1px solid rgba(0, 0, 0, 0.125);
-	border-radius: 0;
-}
-.edit-profile .photo-changer-box button.upload
+.edit-profile .dialog-box button.upload
 {
 	color: #0095f6;
 }
-.edit-profile .photo-changer-box button.remove
+.edit-profile .dialog-box button.upload:active
 {
-	color: #db0000;
+	color: #0095f6 !important;
 }
 
 .account-edit .change-password .element.profile-pic-container .right

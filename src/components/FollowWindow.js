@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { db } from "../firebase";
 import FollowButton from "./FollowButton";
+import VerifiedTick from "./VerifiedTick";
 
 const FollowWindow = props =>
 {
@@ -55,7 +56,7 @@ const FollowWindow = props =>
 									<div className="profile">
 										<Link to={`${person.username}`}><div className="profile-pic"><img src={person.profilePic} alt={`${person.username}'s Pic`}></img></div></Link>
 										<div className="info">
-											<div style={{display: "flex"}}><Link to={`/${person.username}`} className="username">{person.username}</Link> {person.verified ? <div className="verified" title="Verified"></div> : null}</div>
+											<div style={{display: "flex"}}><Link to={`/${person.username}`} className="username">{person.username}</Link> <VerifiedTick user={person} size={15} marginLeft={7.5}/></div>
 											<span className="real-name">{person.realName}</span>
 										</div>
 									</div>
