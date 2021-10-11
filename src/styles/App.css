@@ -380,6 +380,42 @@
 	outline: none;
 }
 
+.home-page
+{
+	width: 100%;
+	padding: 1rem 0;
+}
+.home-page .posts
+{
+	width: max-content;
+	display: flex;
+	flex-direction: column;
+	gap: 1.25rem;
+	position: relative;
+	right: 100px;
+	margin: 0 auto;
+}
+.home-page .older-posts h2
+{
+	text-align: center;
+	font-weight: 500;
+	margin-top: 1.25rem;
+}
+
+.sidebar
+{
+	position: fixed;
+	top: 125px;
+	right: 0;
+	left: 1300px;
+}
+.sidebar .username
+{
+	font-weight: bold;
+	font-size: 0.85em;
+	margin-left: 1rem;
+}
+
 .comment
 {
 	height: 50px;

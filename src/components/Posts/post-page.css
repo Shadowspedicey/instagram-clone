@@ -3,6 +3,28 @@
 	padding: 3rem 0;
 }
 
+.post-window.vertical
+{
+	height: initial;
+	flex-direction: column;
+}
+.post-window.vertical .comments
+{
+	height: initial;
+	border: none;
+}
+.post-window.vertical .comment
+{
+	height: initial;
+	min-height: initial;
+	margin: 0.75rem 0;
+}
+.post-window.vertical .info
+{
+	border: none !important;
+	padding-bottom: 0 !important;
+}
+
 .post-window
 {
 	max-width: 1000px;
@@ -12,6 +34,7 @@
 .post-window > img
 {
 	width: 618px;
+	height: 618px;
 }
 
 .post-window .side
@@ -27,8 +50,14 @@
 	height: 65px;
 	display: flex;
 	align-items: center;
+	position: relative;
 	padding: 0 1rem;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+.post-window .poster button.icon
+{
+	position: absolute;
+	right: 1rem;
 }
 
 .post-window .profile-pic

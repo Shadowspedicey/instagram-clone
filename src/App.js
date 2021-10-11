@@ -17,7 +17,7 @@ import PasswordReset from "./components/AccountAuth/PasswordReset";
 import LoginPage from "./components/AccountAuth/LoginPage";
 import AccountVerification from "./components/AccountAuth/AccountVerification";
 
-import Logged from "./components/Logged";
+import Logged from "./components/HomePage";
 import UserProfile from "./components/UserProfile";
 import newPost from "./components/Posts/NewPost";
 import PostPage from "./components/Posts/PostPage";
