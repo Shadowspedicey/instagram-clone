@@ -134,3 +134,10 @@
 	border: none;
 	outline: none;
 }
+
+.post-page .more-posts header
+{
+	font-size: 1.25em;
+	font-weight: 500;
+	margin: 1rem 0;
+}
