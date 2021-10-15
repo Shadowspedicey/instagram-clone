@@ -189,7 +189,7 @@ const PostWindow = ({postID, isVertical}) =>
 						}
 						<span className="timestamp" title={format(fromUnixTime(postData.timestamp.seconds), "d MMM, yyyy")}>
 							{
-								parseInt(formatDistanceToNowStrict(fromUnixTime(postData.timestamp.seconds))) > 7
+								new Date().getTime() / 1000 - postData.timestamp.seconds > 604800
 									?	getYear(fromUnixTime(postData.timestamp.seconds)) === getYear(new Date())
 										? format(fromUnixTime(postData.timestamp.seconds), "d MMMM")
 										: format(fromUnixTime(postData.timestamp.seconds), "d MMMM, yyyy")

@@ -24,6 +24,7 @@ const HomePage = () =>
 		const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
   	setScroll(winScroll / height * 100);
 	};
+	useEffect(handleScroll, []);
 
 	useEffect(() => document.title = "Instadicey", []);
 	useEffect(() =>
@@ -60,8 +61,8 @@ const HomePage = () =>
 	useEffect(() =>
 	{
 		window.addEventListener("scroll", handleScroll);
-		if (!postsRef.current) return;
-		window.addEventListener("resize", setNewLeft);
+		if (postsRef.current)
+			window.addEventListener("resize", setNewLeft);
 		return () =>
 		{
 			window.removeEventListener("scroll", handleScroll);
@@ -87,7 +88,7 @@ const HomePage = () =>
 				}
 			</div>
 			{ olderPosts &&
-					<div className="older-posts posts">
+					<div className="older-posts posts" ref={postsRef} onLoad={setNewLeft}>
 						<h2>Showing posts older than 3 days</h2>
 						{
 							olderPosts.map(post =>
