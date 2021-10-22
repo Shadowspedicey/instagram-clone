@@ -22,6 +22,8 @@ import UserProfile from "./components/UserProfile";
 import newPost from "./components/Posts/NewPost";
 import PostPage from "./components/Posts/PostPage";
 
+import Inbox from "./components/Inbox/Inbox";
+
 import AccountEdit from "./components/AccountEdit/AccountEdit";
 import "./styles/App.css";
 
@@ -84,6 +86,9 @@ const App = () =>
 				<Route path="/accounts/verify" component={AccountVerification}></Route>
 				
 				<Route path="/accounts" component={AccountEdit}></Route>
+
+				<Route exact path="/direct/inbox" component={Inbox}></Route>
+				<Route exact path="/direct/t/:roomID" component={Inbox}></Route>
 
 				<Route exact path="/:username" component={UserProfile}></Route>
 				<Route exact path="/:username/saved" component={UserProfile}></Route>

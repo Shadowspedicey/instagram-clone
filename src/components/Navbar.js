@@ -52,7 +52,7 @@ const Navbar = () =>
 				<li><button className="add-post icon" onClick={() => addPostButton.current.click()}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></button></li>
 				<input accept="image/png, image/jpg, image/jpeg, image/pjpeg, image/jfif, image/pjp" type="file" ref={addPostButton} onChange={handleNewPostChange}></input>
 				<li><Link to="/" className="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13v10h-6v-6h-6v6h-6v-10h-3l12-12 12 12h-3zm-1-5.907v-5.093h-3v2.093l3 3z"/></svg></Link></li>
-				<li><Link to="/inbox" className="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12.713l-11.985-9.713h23.97l-11.985 9.713zm0 2.574l-12-9.725v15.438h24v-15.438l-12 9.725z"/></svg></Link></li>
+				<li><Link to="/direct/inbox" className="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12.713l-11.985-9.713h23.97l-11.985 9.713zm0 2.574l-12-9.725v15.438h24v-15.438l-12 9.725z"/></svg></Link></li>
 				<li className="profile" onClick={openDropdown}>
 					<div className="icon"><img src={profilePic} alt="Profile Pic"></img></div>
 					{ isDropdownOpen &&

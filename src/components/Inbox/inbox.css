@@ -1,0 +1,185 @@
+.inbox-window
+{
+	width: 1000px;
+	flex-grow: 1;
+	background-color: white;
+	position: relative;
+	margin: 1rem 0;
+}
+
+.inbox-window > .container
+{
+	display: flex;
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+
+.inbox-window .recent-chats
+{
+	flex: 1.25 0 0;
+	
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+
+	border-right: 1px solid rgb(0, 0, 0, 0.125);
+}
+.inbox-window .recent-chats header
+{
+	width: 100%;
+	text-align: center;
+	font-weight: bold;
+	position: relative;
+	padding: 1.5rem 0;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+.inbox-window .recent-chats header button
+{
+	width: 24px;
+	height: 24px;
+	position: absolute;
+	right: 1rem;
+	top: 50%;
+	margin-top: -12px;
+}
+
+.inbox-window .recent-chats ul
+{
+	width: 100%;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	padding: 0.5rem 0;
+}
+.inbox-window .recent-chats ul a
+{
+	padding: 0.25rem 1rem;
+}
+.inbox-window .recent-chats ul a:hover
+{
+	background: rgba(0, 0, 0, 0.0125);
+}
+.inbox-window .recent-chats ul a:active,
+.inbox-window .recent-chats ul a.selected
+{
+	background: rgba(0, 0, 0, 0.075);
+}
+.inbox-window .recent-chats ul li
+{
+	display: flex;
+	align-items: center;
+}
+.inbox-window .recent-chats ul li .info
+{
+	display: flex;
+	flex-direction: column;
+	margin-left: 1rem;
+}
+.inbox-window .recent-chats ul li .message
+{
+	display: flex;
+	white-space: nowrap;
+	color: #8e8e8e;
+}
+.inbox-window .recent-chats ul li .message div
+{
+	max-width: 80%;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin-right: 5px;
+}
+
+.inbox-window .recent-chats ul .profile-pic
+{
+	width: 60px;
+	height: 60px;
+}
+
+.inbox-window .chat-window
+{
+	flex: 2 0 0;
+}
+
+.chat-room
+{
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+.chat-room header
+{
+	width: 100%;
+	min-height: 68px;
+	height: 68px;
+	font-weight: bold;
+	display: flex;
+	align-items: center;
+	padding-left: 2rem;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.chat-room .messages
+{
+	flex-grow: 1;
+	overflow-y: auto;
+	overflow-x: hidden;
+	
+	display: flex;
+	flex-direction: column-reverse;
+	
+	padding: 0 1rem;
+}
+.chat-room .messages > .container
+{
+	display: flex;
+	flex-direction: column;
+	margin-top: auto;
+}
+
+.message
+{
+	display: flex;
+	align-items: flex-end;
+	margin: 2px 0;
+}
+.message.sent
+{
+	margin-left: auto;
+}
+.message.sent .text
+{
+	background-color: lightgray;
+}
+.message .profile-pic, .message .dummy
+{
+	margin-right: 0.25rem;
+}
+.message .text
+{
+	padding: 0.75rem;
+}
+
+.chat-room .send-message-container
+{
+	padding: 1rem;
+}
+.chat-room .send-message-container form
+{
+	display: flex;
+	align-items: center;
+	overflow: hidden;
+	padding: 0 1rem;
+}
+
+.chat-room .send-message-container input
+{
+	width: 100%;
+	font-size: 1em;
+
+	padding: 1rem;
+	outline: none;
+	border: none;
+}
