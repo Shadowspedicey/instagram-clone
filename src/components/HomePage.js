@@ -33,12 +33,15 @@ const HomePage = () =>
 		const getPosts = async () =>
 		{
 			dispatch(startLoading());
-			const maximumDate = new Date(new Date().getTime() - (3 * 24 * 60 * 60 * 1000));
-			setMaxDate(maximumDate);
-			const q = query(collectionGroup(db, "user_posts"), where("user", "in", currentUser.following), where("timestamp", ">=", maximumDate));
-			let posts = await getDocs(q).then(querySnapshot => querySnapshot.docs.map(doc => doc.data()));
-			posts = posts.sort((a, b) => a.timestamp.seconds < b.timestamp.seconds ? 1 : -1);
-			setPostsToDisplay(posts);
+			if (currentUser.following.length > 0)
+			{
+				const maximumDate = new Date(new Date().getTime() - (3 * 24 * 60 * 60 * 1000));
+				setMaxDate(maximumDate);
+				const q = query(collectionGroup(db, "user_posts"), where("user", "in", currentUser.following), where("timestamp", ">=", maximumDate));
+				let posts = await getDocs(q).then(querySnapshot => querySnapshot.docs.map(doc => doc.data()));
+				posts = posts.sort((a, b) => a.timestamp.seconds < b.timestamp.seconds ? 1 : -1);
+				setPostsToDisplay(posts);
+			} else setPostsToDisplay([]);
 			dispatch(stopLoading());
 		};
 		getPosts();
@@ -47,16 +50,20 @@ const HomePage = () =>
 	useEffect(() =>
 	{
 		if (scroll < 75 || olderPosts) return;
+
 		const getOlderPosts = async () =>
 		{
-			const q = query(collectionGroup(db, "user_posts"), where("user", "in", currentUser.following), where("timestamp", "<=", maxDate));
-			let posts = await getDocs(q).then(querySnapshot => querySnapshot.docs.map(doc => doc.data()));
-			posts = posts.sort((a, b) => a.timestamp.seconds < b.timestamp.seconds ? 1 : -1);
-			setOlderPosts(posts);
+			if (currentUser.following.length > 0)
+			{
+				const q = query(collectionGroup(db, "user_posts"), where("user", "in", currentUser.following), where("timestamp", "<=", maxDate));
+				let posts = await getDocs(q).then(querySnapshot => querySnapshot.docs.map(doc => doc.data()));
+				posts = posts.sort((a, b) => a.timestamp.seconds < b.timestamp.seconds ? 1 : -1);
+				setOlderPosts(posts);
+			} else setOlderPosts([]);
 		};
 		getOlderPosts();
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [scroll]);
+	}, [scroll, currentUser.following]);
 
 	useEffect(() =>
 	{

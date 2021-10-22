@@ -1,4 +1,4 @@
-import { EmailAuthCredential, EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "@firebase/auth";
+import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "@firebase/auth";
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
