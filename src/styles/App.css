@@ -41,7 +41,7 @@
 	background-color: white;
 
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 	align-items: center;
 
 	position: fixed;
@@ -49,6 +49,7 @@
 	left: 0;
 	z-index: 9999;
 
+	padding: 0 2rem;
 	border-bottom: 1px solid rgba(0, 0, 0, 0.125);
 }
 
@@ -193,7 +194,7 @@
 
 #main-navbar > ul
 {
-	width: 12.5%;
+	width: 200px;
 	display: flex;
 	justify-content: space-between;
 }
@@ -402,14 +403,14 @@
 	margin-top: 1.25rem;
 }
 
-.sidebar
+.home-page > .sidebar
 {
 	position: fixed;
 	top: 125px;
 	right: 0;
 	left: 1300px;
 }
-.sidebar .username
+.home-page > .sidebar .username
 {
 	font-weight: bold;
 	font-size: 0.85em;
@@ -577,5 +578,139 @@
 	100%
 	{
 		transform: scale(1);
+	}
+}
+
+@media screen and (max-width: 1024px)
+{
+	.home-page .posts
+	{
+		right: 0;
+	}
+
+	.user-profile .upper .personal-info
+	{
+		margin: 0;
+	}
+
+	.inbox-window.outlined
+	{
+		margin: 0;
+		border-top: none !important;
+	}
+}
+
+@media screen and (max-width: 768px)
+{
+	html
+	{
+		font-size: 14px;
+	}
+	
+	#main-navbar .logo
+	{
+		height: 50%;
+	}
+
+	.searchbar-container .search
+	{
+		width: 175px !important;
+	}
+
+	.user-profile
+	{
+		padding: 0;
+	}
+
+	.user-profile .upper .personal-info .profile-pic
+	{
+		width: 150px;
+		height: 150px;
+	}
+
+	.user-profile .post-cards-container
+	{
+		gap: 4px;
+	}
+
+	.account-edit .main > div
+	{
+		padding: 1rem 2rem;
+	}
+}
+
+@media screen and (max-width: 600px)
+{
+	html
+	{
+		font-size: 13px;
+	}
+
+	#main-navbar
+	{
+		padding: 0 0.75rem;
+	}
+	#main-navbar ul
+	{
+		width: 150px;
+	}
+	#main-navbar ul li > .icon
+	{
+		width: 25px;
+		height: 25px;
+	}
+	#main-navbar .profile .dropdown
+	{
+		right: -175%;
+	}
+
+	.post-window.outlined
+	{
+		border-top: 1px solid rgba(0, 0, 0, 0.125) !important;
+		border-bottom: 1px solid rgba(0, 0, 0, 0.125) !important;
+		border-right: none !important;
+		border-left: none !important;
+	}
+
+	.follow-list-window
+	{
+		width: 375px;
+		margin-left: -187.5px;
+	}
+	.follow-btn
+	{
+		width: 50px;
+		height: 25px !important;
+		font-size: 0.5em;
+		padding: 0.25rem 0.5rem;
+	}
+
+	.user-profile .upper
+	{
+		font-size: 0.85em;
+	}
+	.user-profile .upper .personal-info .profile-pic
+	{
+		width: 100px;
+		height: 100px;
+		min-width: 100px;
+		min-height: 100px;
+	}
+	.user-profile .upper .personal-info .info .name .verified
+	{
+		align-self: center;
+		margin: 0;
+		width: 15px;
+		height: 15px;
+	}
+	.user-profile .upper .personal-info .info .name .verified svg
+	{
+		width: 15px;
+		height: 15px;
+	}
+
+	.account-edit .main > div
+	{
+		padding: 1rem 0;
 	}
 }

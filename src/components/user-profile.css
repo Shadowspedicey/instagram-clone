@@ -137,12 +137,15 @@
 	display: flex;
 	justify-content: space-between;
 	margin-right: 100px;
+	padding: 0 1rem;
 }
 
 .user-profile .upper .personal-info .profile-pic
 {
+	min-width: max-content;
 	width: 175px;
 	height: 175px;
+	align-self: center;
 	border-radius: 50%;
 	border: 1px solid rgba(206, 206, 206, 0.25);
 }
@@ -200,10 +203,8 @@
 	cursor: pointer;
 
 	color: white;
-	font-size: 15px;
 	font-weight: bold;
 
-	/* padding: 0.3rem 0.5rem; */
 	padding: 0.5rem 0.75rem;
 	margin-left: 1rem;
 	border: none;
@@ -226,7 +227,8 @@ a.edit-profile-btn
 
 .user-profile .upper .personal-info .bio
 {
-	width: 330px;
+	max-width: 330px;
+	width: 100%;
 	word-break: break-all;
 }
 

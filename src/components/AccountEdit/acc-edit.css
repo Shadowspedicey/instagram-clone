@@ -1,6 +1,6 @@
 .account-edit
 {
-	width: 925px;
+	max-width: 925px;
 	background-color: white;
 
 	display: flex;
@@ -148,6 +148,7 @@
 
 .account-element .element.profile-pic-container
 {
+	width: max-content;
 	height: 37.5px;
 	position: relative;
 	left: 65px;

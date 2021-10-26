@@ -14,6 +14,14 @@ const PostPage = () =>
 	const dispatch = useDispatch();
 	const [postExists, setPostExists] = useState(false);
 	const [morePosts, setMorePosts] = useState(null);
+	const [isSmallScreen, setIsSmallScreen] = useState(false);
+	const handleResize = () => window.innerWidth < 1024 ? setIsSmallScreen(true) : setIsSmallScreen(false);
+	useEffect(() =>
+	{
+		handleResize();
+		window.addEventListener("resize", handleResize);
+		return () => window.removeEventListener("resize", handleResize);
+	}, []);
 
 	const checkIfPostExists = async () =>
 	{
@@ -52,7 +60,11 @@ const PostPage = () =>
 	if (!postExists) return null;
 	else return(
 		<div className="post-page">
-			<PostWindow postID={postID}/>
+			{
+				isSmallScreen
+					? <PostWindow postID={postID} isVertical/>
+					: <PostWindow postID={postID}/>
+			}
 			<div className="more-posts">
 				<header>More posts from this user</header>
 				{ morePosts &&

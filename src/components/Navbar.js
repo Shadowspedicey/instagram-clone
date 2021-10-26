@@ -5,10 +5,12 @@ import { auth, db } from "../firebase";
 import { signOut } from "@firebase/auth";
 import { collection, deleteField, doc, getDoc, getDocs, serverTimestamp,  updateDoc } from "@firebase/firestore";
 import OutsideClickHandler from "react-outside-click-handler";
+import { useMediaQuery } from "react-responsive";
 import { startLoading, stopLoading } from "../state/actions/isLoading";
 import { setSnackbar } from "../state/actions/snackbar";
 import { setNewPost } from "../state/actions/newPost";
 import nameLogo from "../assets/namelogo.png";
+import Logo from "../assets/logo.png";
 import Loading from "../assets/misc/loading.jpg";
 
 const Navbar = () =>
@@ -19,6 +21,7 @@ const Navbar = () =>
 	const { username, profilePic } = useSelector(state => state.currentUser.info) || "";
 	const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 	const [playDropdownClose, setPlayDropdownClose] = useState(false);
+	const phoneQuery = useMediaQuery({query: "(max-width: 600px)"});
 
 	const handleNewPostChange = input =>
 	{
@@ -46,7 +49,7 @@ const Navbar = () =>
 
 	return(
 		<nav id="main-navbar">
-			<div className="logo"><Link to="/"><img src={nameLogo} alt="Instadicey"></img></Link></div>
+			<div className="logo"><Link to="/"><img src={phoneQuery ? Logo : nameLogo} alt="Instadicey"></img></Link></div>
 			<li><Searchbar/></li>
 			<ul>
 				<li><button className="add-post icon" onClick={() => addPostButton.current.click()}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></button></li>

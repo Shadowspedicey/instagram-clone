@@ -1,6 +1,7 @@
 import { collectionGroup, getDocs, query, where } from "@firebase/firestore";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
 import { db } from "../firebase";
 import { startLoading, stopLoading } from "../state/actions/isLoading";
@@ -16,7 +17,8 @@ const HomePage = () =>
 	const [olderPosts, setOlderPosts] = useState(null);
 	const [postsToDisplay, setPostsToDisplay] = useState(null);
 	const [left, setLeft] = useState(null);
-	const setNewLeft = () => setLeft(parseInt(window.getComputedStyle(postsRef.current).marginLeft) + parseInt(window.getComputedStyle(postsRef.current).width));
+	const setNewLeft = () => postsRef.current ? setLeft(parseInt(window.getComputedStyle(postsRef.current).marginLeft) + parseInt(window.getComputedStyle(postsRef.current).width)) : null;
+	const smallScreenQuery = useMediaQuery({query: "(max-width: 1024px)"});
 
 	const handleScroll = () =>
 	{
@@ -68,19 +70,18 @@ const HomePage = () =>
 	useEffect(() =>
 	{
 		window.addEventListener("scroll", handleScroll);
-		if (postsRef.current)
-			window.addEventListener("resize", setNewLeft);
+		window.addEventListener("resize", setNewLeft);
 		return () =>
 		{
 			window.removeEventListener("scroll", handleScroll);
 			window.removeEventListener("resize", setNewLeft);
 		};
-	}, []);
+	}, [postsRef]);
 
 	if (!postsToDisplay) return null;
 	return(
 		<div className="home-page">
-			{ left &&
+			{ (left && !smallScreenQuery) &&
 				<div className="sidebar" style={{left}}>
 					<div style={{display: "flex", alignItems: "center"}}>
 						<Link to={`/${currentUser.username}`}><div className="profile-pic" style={{width: 50, height: 50}}><img src={currentUser.profilePic} alt={`${currentUser.username}'s profile pic`}></img></div></Link>
@@ -88,12 +89,15 @@ const HomePage = () =>
 					</div>
 				</div>
 			}
-			<div className="posts" ref={postsRef} onLoad={setNewLeft}>
-				{
-					postsToDisplay.map(post =>
-						<PostWindow postID={post.id} isVertical key={post.id}/>)
-				}
-			</div>
+			{
+				postsToDisplay &&
+				<div className="posts" ref={postsRef} onLoad={setNewLeft}>
+					{
+						postsToDisplay.map(post =>
+							<PostWindow postID={post.id} isVertical key={post.id}/>)
+					}
+				</div>
+			}
 			{ olderPosts &&
 					<div className="older-posts posts" ref={postsRef} onLoad={setNewLeft}>
 						<h2>Showing posts older than 3 days</h2>

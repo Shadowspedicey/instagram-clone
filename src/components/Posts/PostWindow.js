@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { db } from "../../firebase";
 import { collection, collectionGroup, deleteDoc, doc, getDoc, getDocs, query, serverTimestamp, setDoc, where } from "@firebase/firestore";
@@ -16,6 +16,7 @@ import VerifiedTick from "../VerifiedTick";
 const PostWindow = ({postID, isVertical}) =>
 {
 	const history = useHistory();
+	const location = useLocation();
 	const addComment = useRef();
 	const dispatch = useDispatch();
 	const currentUser = useSelector(state => state.currentUser);
@@ -139,8 +140,9 @@ const PostWindow = ({postID, isVertical}) =>
 				{ isDialogBoxOpen &&
 				<div className="dialog-box-container" onClick={closeDialogBox}>
 					<div className="dialog-box" onClick={e => e.stopPropagation()}>
-						<button className="text" onClick={() => history.push(`/p/${postData.id}`)}>Go to post</button>
-						<button className="text" onClick={() => { navigator.clipboard.writeText(`${window.location.origin}/#/p/${postID}`); closeDialogBox(); }}>Copy Link</button>
+						{location.pathname !== "/" ? null : <button className="text" onClick={() => history.push(`/p/${postData.id}`)}>Go to post</button>}
+						{location.pathname !== "/" ? null : <button className="text" onClick={() => { navigator.clipboard.writeText(`${window.location.origin}/#/p/${postID}`); closeDialogBox(); }}>Copy Link</button>}
+						{currentUser.user.uid === postData.user && <button className="remove text" onClick={deletePost}>Delete</button>}
 						<button className="cancel text" onClick={closeDialogBox}>Cancel</button>
 					</div>
 				</div>
@@ -148,9 +150,13 @@ const PostWindow = ({postID, isVertical}) =>
 				<div className="poster">
 					<Link to={`/${userInfo.username}`}><div className="profile-pic outlined round"><img src={userInfo.profilePic} alt="Profile Pic"></img></div></Link>
 					<Link to={`/${userInfo.username}`} className="username">{userInfo.username}</Link>
-					{postData.user === currentUser.user.uid || <button className="icon" style={{width: 15, height: 15}} onClick={() => setIsDialogBoxOpen(true)}><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path d="M6 12c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm9 0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm9 0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"/></svg></button>}
+					<button className="icon" style={{width: 15, height: 15}} onClick={() => setIsDialogBoxOpen(true)}><svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24"><path d="M6 12c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm9 0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3zm9 0c0 1.657-1.343 3-3 3s-3-1.343-3-3 1.343-3 3-3 3 1.343 3 3z"/></svg></button>
 				</div>
-				<img src={postData.photo} alt={postData.caption}></img>
+				<div className="post-photo">
+					<div className="container">
+						<img src={postData.photo} alt={postData.caption}></img>
+					</div>
+				</div>
 				<div className="side">
 					<div className="info">
 						<div className="interactions">

@@ -5,6 +5,7 @@
 
 .post-window.vertical
 {
+	width: min-content;
 	height: initial;
 	flex-direction: column;
 }
@@ -31,10 +32,25 @@
 	height: 620px;
 	display: flex;
 }
-.post-window > img
+.post-window .post-photo
 {
-	width: 618px;
-	height: 618px;
+	width: 100vw;
+	max-width: 618px;
+	position: relative;
+}
+.post-window .post-photo .container
+{
+	position: relative;
+	height: 0;
+	padding-bottom: 100%;
+}
+.post-window .post-photo img
+{
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 0;
 }
 
 .post-window .side

@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import { Route, useParams } from "react-router";
 import { NavLink, Switch } from "react-router-dom";
-import "./inbox.css";
+import { useMediaQuery } from "react-responsive";
 import { useSelector } from "react-redux";
 import Room from "./Room";
 import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from "@firebase/firestore";
 import { db } from "../../firebase";
 import { formatDistanceToNowStrict, fromUnixTime } from "date-fns";
 import FollowWindow from "../FollowWindow";
+import "./inbox.css";
 
 const Inbox = () =>
 {
@@ -16,6 +17,7 @@ const Inbox = () =>
 	const [recentChats, setRecentChats] = useState(null);
 	const [isNewMessageBoxOpen, setIsNewMessageBoxOpen] = useState(false);
 	const closeNewMessageBox = () => setIsNewMessageBoxOpen(false);
+	const phoneQuery = useMediaQuery({query: "(max-width: 600px)"});
 
 	const formatDate = date =>
 	{
@@ -51,7 +53,7 @@ const Inbox = () =>
 		}
 	};
 
-	useEffect(() => document.title = "Instadicey • Chats");
+	useEffect(() => document.title = "Inbox • Chats");
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(() => getChats(), [currentUser]);
 
@@ -77,7 +79,45 @@ const Inbox = () =>
 	}, [currentUser]);
 
 	if (!currentUser || !recentChats) return null;
-	return(
+	if (phoneQuery)
+		return(
+			<div className="inbox-window outlined">
+				{ isNewMessageBoxOpen &&
+						<FollowWindow title="New Message" uids={[...currentUser.info.following, ...currentUser.info.followers]} closeFollowListWindow={closeNewMessageBox} newMessage/>
+				}
+				<div className="container">
+					<Switch>
+						<Route exact path="/direct/inbox">
+							<div className="recent-chats left">
+								<header>{currentUser.info.username}<button className="icon" onClick={() => setIsNewMessageBoxOpen(true)}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fillRule="evenodd" clipRule="evenodd"><path d="M8.071 21.586l-7.071 1.414 1.414-7.071 14.929-14.929 5.657 5.657-14.929 14.929zm-.493-.921l-4.243-4.243-1.06 5.303 5.303-1.06zm9.765-18.251l-13.3 13.301 4.242 4.242 13.301-13.3-4.243-4.243z"/></svg></button></header>
+								<ul>
+									{
+										recentChats.map(chat =>
+											<NavLink to={`/direct/t/${chat.id}`} activeClassName="selected" key={chat.id}>
+												<li key={chat.otherUser.uid}>
+													<span className="profile-pic"><img src={chat.otherUser.profilePic} alt={`${chat.otherUser.currentUser}'s profile pic`}></img></span>
+													<div className="info">
+														<span className="username">{chat.otherUser.username}</span>
+														<div className="message">
+															<div>{chat.lastMessage.message}</div>
+															<span>• {formatDate(formatDistanceToNowStrict(fromUnixTime(chat.lastUpdated ? chat.lastUpdated.seconds : 0)))}</span>
+														</div>
+													</div>
+												</li>
+											</NavLink>
+										)
+									}
+								</ul>
+							</div>
+						</Route>
+						<Route path="/direct/t/:roomID">
+							<Room roomID={roomID}/>
+						</Route>
+					</Switch>
+				</div>
+			</div>
+		);
+	else return(
 		<div className="inbox-window outlined">
 			{ isNewMessageBoxOpen &&
 					<FollowWindow title="New Message" uids={[...currentUser.info.following, ...currentUser.info.followers]} closeFollowListWindow={closeNewMessageBox} newMessage/>

@@ -83,6 +83,7 @@ const Room = ({roomID}) =>
 		}
 	};
 
+	useEffect(() => document.title = "Instadicey • Chats");
 	useEffect(() =>
 	{
 		const q = query(collection(db, "chats", roomID, "messages"), orderBy("timestamp", "asc"));
