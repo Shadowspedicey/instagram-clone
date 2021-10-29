@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { doc, getDoc, runTransaction } from "@firebase/firestore";
+import { doc, setDoc, getDoc, runTransaction } from "@firebase/firestore";
 import { db } from "../firebase";
 import Loading from "../assets/misc/loading.jpg";
 import { setSnackbar } from "../state/actions/snackbar";
@@ -17,7 +17,7 @@ const FollowButton = ({ target }) =>
 		{
 			if (!currentUser) return;
 			setIsLoading(true);
-			const currentUserFollowing = await getDoc(doc(db, "users", currentUser.user.uid)).then(doc => doc.data().following);
+			const currentUserFollowing = await getDoc(doc(db, "users", currentUser.user.uid, "user_follows", "following")).then(doc => doc.data()).then(data => data ? data.following : []);
 			if (currentUserFollowing.includes(target.uid)) setIsFollowing(true);
 			else setIsFollowing(false);
 			setIsLoading(false);
@@ -50,83 +50,94 @@ const FollowButton = ({ target }) =>
 
 	const addToUsersFollowing = async () =>
 	{
-		const userRef = doc(db, "users", currentUser.info.uid);
+		const userRefFollowing = doc(db, "users", currentUser.user.uid, "user_follows", "following");
 		try
 		{
 			await runTransaction(db, async t =>
 			{
-				const sfDoc = await t.get(userRef);
+				const sfDoc = await t.get(userRefFollowing);
 				if (!sfDoc.exists()) throw new Error("Document does not exist");
-				if (sfDoc.data().following.includes(target.uid)) throw new Error("User already followed");
 				const newFollowingArray = [...sfDoc.data().following, target.uid];
-				t.update(userRef, { following: newFollowingArray }, { merge: true });
+				t.update(userRefFollowing, { following: newFollowingArray }, { merge: true });
 			});
 		}
 		catch (err)
 		{
 			console.error(err);
-			if (err.message === "User already followed") 
-				return dispatch(setSnackbar("You already follow this person.", "error"));
-			dispatch(setSnackbar("Oops, try again later.", "error"));
+			if (err.message === "Document does not exist")
+			{
+				await setDoc(userRefFollowing,
+					{
+						following: [target.uid]
+					}, {merge: true});
+			}
+			else dispatch(setSnackbar("Oops, try again later.", "error"));
 		}
 	};
 	const removeFromUsersFollowing = async () =>
 	{
-		const userRef = doc(db, "users", currentUser.info.uid);
+		const userRefFollowing = doc(db, "users", currentUser.info.uid, "user_follows", "following");
 		try
 		{
 			await runTransaction(db, async t =>
 			{
-				const sfDoc = await t.get(userRef);
+				const sfDoc = await t.get(userRefFollowing);
 				if (!sfDoc.exists()) throw new Error("Document does not exist");
 				if (!sfDoc.data().following.includes(target.uid)) throw new Error("User already not followed");
 				const newFollowingArray = sfDoc.data().following.filter(user => user !== target.uid);
-				t.update(userRef, { following: newFollowingArray }, { merge: true });
+				t.update(userRefFollowing, { following: newFollowingArray }, { merge: true });
 			});
 		}
 		catch (err)
 		{
 			console.error(err);
-			if (err.message === "User already not followed") 
-				dispatch(setSnackbar("You already don't follow this person.", "error"));
 			dispatch(setSnackbar("Oops, try again later.", "error"));
 		}
 	};
 
 	const addToTargetsFollowers = async () =>
 	{
-		const targetRef = doc(db, "users", target.uid);
+		const targetRefFollowers = doc(db, "users", target.uid, "user_follows", "followers");
 		try
 		{
 			await runTransaction(db, async t =>
 			{
-				const sfDoc = await t.get(targetRef);
+				const sfDoc = await t.get(targetRefFollowers);
 				if (!sfDoc.exists()) throw new Error("Document does not exist");
-				const newFollowersArray = [...sfDoc.data().followers, currentUser.info.uid];
-				t.update(targetRef, { followers: newFollowersArray }, { merge: true });
+				if (sfDoc.data().followers.includes(currentUser.user.uid)) throw new Error("User already followed");
+				const newFollowersArray = [...sfDoc.data().followers, currentUser.user.uid];
+				t.update(targetRefFollowers, { followers: newFollowersArray }, { merge: true });
 			});
 		}
 		catch (err)
 		{
 			console.error(err);
-			dispatch(setSnackbar("Oops, try again later.", "error"));
+			if (err.message === "Document does not exist")
+			{
+				await setDoc(targetRefFollowers,
+					{
+						followers: [currentUser.user.uid]
+					}, {merge: true});
+			}
+			else dispatch(setSnackbar("Oops, try again later.", "error"));
 		}
 	};
 	const removeFromTargetsFollowers = async () =>
 	{
-		const targetRef = doc(db, "users", target.uid);
+		const targetRefFollowers = doc(db, "users", target.uid, "user_follows", "followers");
 		try
 		{
 			await runTransaction(db, async t =>
 			{
-				const sfDoc = await t.get(targetRef);
+				const sfDoc = await t.get(targetRefFollowers);
 				if (!sfDoc.exists()) throw new Error("Document does not exist");
-				const newFollowersArray = sfDoc.data().following.filter(user => user !== currentUser.info.uid);
-				t.update(targetRef, { followers: newFollowersArray }, { merge: true });
+				const newFollowersArray = sfDoc.data().followers.filter(user => user !== currentUser.user.uid);
+				t.update(targetRefFollowers, { followers: newFollowersArray }, { merge: true });
 			});
 		}
 		catch (err)
 		{
+			console.error(err);
 			dispatch(setSnackbar("Oops, try again later.", "error"));
 		}
 	};

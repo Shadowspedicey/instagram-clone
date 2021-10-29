@@ -84,16 +84,13 @@ const SignUpPage = () =>
 			const { user } = await createUserWithEmailAndPassword(auth, email, password);
 			const info =
 			{
-				email,
 				realName,
 				username,
 				profilePic: "https://firebasestorage.googleapis.com/v0/b/instadicey.appspot.com/o/default%2FprofilePic.jpg?alt=media&token=3ac835a3-016e-470a-b7b3-f898d82cdbde",
 				defaultProfilePic: true,
 				bio: "",
-				followers: [],
-				following: [],
 				saved: [],
-				recentSearches: [],
+				recentSearches: {},
 				uid: auth.currentUser.uid,
 				timestamp: serverTimestamp(),
 			};

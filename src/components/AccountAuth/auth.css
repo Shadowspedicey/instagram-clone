@@ -101,7 +101,8 @@
 
 #email-verification-window
 {
-	width: 850px;
+	width: 100%;
+	max-width: 850px;
 	height: 500px;
 	background-color: white;
 
@@ -110,7 +111,7 @@
 	justify-content: space-between;
 	align-items: center;
 
-	padding: 5rem 0;
+	padding: 5rem 2rem;
 	margin: auto;
 }
 
@@ -198,7 +199,8 @@
 
 .verification-window
 {
-	width: 750px;
+	width: 100%;
+	max-width: 750px;
 	height: 500px;
 	background-color: white;
 
@@ -207,7 +209,7 @@
 	justify-content: space-between;
 	align-items: center;
 
-	padding: 2.5rem 0;
+	padding: 2.5rem 1rem;
 	margin: auto;
 }
 .verification-window.password-reset

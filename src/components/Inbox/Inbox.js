@@ -14,6 +14,7 @@ const Inbox = () =>
 {
 	const { roomID } = useParams();
 	const currentUser = useSelector(state => state.currentUser);
+	const [currentUserFollows, setCurrentUserFollows] = useState(null);
 	const [recentChats, setRecentChats] = useState(null);
 	const [isNewMessageBoxOpen, setIsNewMessageBoxOpen] = useState(false);
 	const closeNewMessageBox = () => setIsNewMessageBoxOpen(false);
@@ -45,7 +46,6 @@ const Inbox = () =>
 						otherUser,
 					};
 				})));
-			console.log(chats);
 			setRecentChats(chats);
 		} catch (err)
 		{
@@ -53,7 +53,22 @@ const Inbox = () =>
 		}
 	};
 
+	const getUsersFollows = async () =>
+	{
+		if (!currentUser) return;
+		try
+		{
+			const currentUserFollows = await getDocs(collection(db, "users", currentUser.user.uid, "user_follows")).then(querySnapshot => Object.assign({}, ...querySnapshot.docs.map(doc => doc.data())));
+			setCurrentUserFollows(currentUserFollows);
+		} catch (err)
+		{
+			console.error(err);
+		}
+	};
+	
 	useEffect(() => document.title = "Inbox • Chats");
+	// eslint-disable-next-line react-hooks/exhaustive-deps
+	useEffect(() => getUsersFollows(), [currentUser]);
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	useEffect(() => getChats(), [currentUser]);
 
@@ -83,7 +98,7 @@ const Inbox = () =>
 		return(
 			<div className="inbox-window outlined">
 				{ isNewMessageBoxOpen &&
-						<FollowWindow title="New Message" uids={[...currentUser.info.following, ...currentUser.info.followers]} closeFollowListWindow={closeNewMessageBox} newMessage/>
+						<FollowWindow title="New Message" uids={[...currentUserFollows.following, ...currentUserFollows.followers]} closeFollowListWindow={closeNewMessageBox} newMessage/>
 				}
 				<div className="container">
 					<Switch>
@@ -120,7 +135,7 @@ const Inbox = () =>
 	else return(
 		<div className="inbox-window outlined">
 			{ isNewMessageBoxOpen &&
-					<FollowWindow title="New Message" uids={[...currentUser.info.following, ...currentUser.info.followers]} closeFollowListWindow={closeNewMessageBox} newMessage/>
+					<FollowWindow title="New Message" uids={[...currentUserFollows.following, ...currentUserFollows.followers]} closeFollowListWindow={closeNewMessageBox} newMessage/>
 			}
 			<div className="container">
 				<div className="recent-chats left">

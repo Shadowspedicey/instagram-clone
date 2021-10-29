@@ -138,7 +138,6 @@ const EditProfile = () =>
 				try
 				{
 					await updateEmail(auth.currentUser, email);
-					await updateDoc(doc(db, "users", currentUser.user.uid), { email });
 					await sendEmailVerification(auth.currentUser);
 				} catch (err) { throw new Error(err.code); }
 			}

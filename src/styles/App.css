@@ -659,6 +659,10 @@
 		width: 25px;
 		height: 25px;
 	}
+	#main-navbar .search-list
+	{
+		right: 5%;
+	}
 	#main-navbar .profile .dropdown
 	{
 		right: -175%;

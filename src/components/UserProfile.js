@@ -18,6 +18,7 @@ const UserProfile = () =>
 	const dispatch = useDispatch();
 	const currentUser = useSelector(state => state.currentUser);
 	const [userInfo, setUserInfo] = useState(null);
+	const [userFollows, setUserFollows] = useState(null);
 	const [userPosts, setUserPosts] = useState([]);
 	const [isFollowingListWindowOpen, setIsFollowingListWindowOpen] = useState(false);
 	const [isFollowersListWindowOpen, setIsFollowersListWindowOpen] = useState(false);
@@ -35,11 +36,27 @@ const UserProfile = () =>
 		return querySnapshot;
 	};
 
+	const getUsersFollows = async uid =>
+	{
+		try
+		{
+			const userFollows = await getDocs(collection(db, "users", uid, "user_follows")).then(querySnapshot => Object.assign({}, ...querySnapshot.docs.map(doc => doc.data())));
+			if (!!userFollows.following === false)
+				userFollows.following = [];
+			if (!!userFollows.followers === false)
+				userFollows.followers = [];
+			setUserFollows(userFollows);
+		} catch (err)
+		{
+			console.error("Error getting user follows", err.message);
+		}
+	};
+
 	const getUsersPosts = async uid =>
 	{
 		const querySnapshot = await getDocs(collection(db, "users", uid, "user_posts"));
 		const posts = querySnapshot.docs.map(doc => doc.data()).sort((a, b) => a.timestamp.seconds > b.timestamp.seconds ? -1 : 1);
-		return posts;
+		setUserPosts(posts);
 	};
 
 	useEffect(() =>
@@ -53,13 +70,16 @@ const UserProfile = () =>
 			const userData = querySnapshot.docs[0].data();
 			if (querySnapshot.size === 1) setUserInfo(userData);
 			else setUserInfo(null);
-			const posts = await getUsersPosts(userData.uid);
-			setUserPosts(posts);
+
+			await getUsersPosts(userData.uid);
+
+			await getUsersFollows(userData.uid);
 			dispatch(stopLoading());
 		};
 		fetchUserInfo();
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [username]);
+	
 	useEffect(() =>
 	{
 		if (!userInfo) return;
@@ -68,13 +88,13 @@ const UserProfile = () =>
 			: document.title = `@${userInfo.username} • Instadicey`;
 	}, [userInfo]);
 
-	if (!userInfo || !currentUser) return <div>not found</div>;
+	if (!userInfo || !currentUser || !userFollows) return <div>not found</div>;
 	else return(
 		<div className="user-profile">
 			{ isFollowingListWindowOpen
-				? <FollowWindow title="Following" uids={userInfo.following} closeFollowListWindow={closeFollowListWindow}/>
+				? <FollowWindow title="Following" uids={userFollows.following} closeFollowListWindow={closeFollowListWindow}/>
 				: isFollowersListWindowOpen
-					? <FollowWindow title="Followers" uids={userInfo.followers} closeFollowListWindow={closeFollowListWindow}/>
+					? <FollowWindow title="Followers" uids={userFollows.followers} closeFollowListWindow={closeFollowListWindow}/>
 					: null
 			}
 			<div className="upper">
@@ -93,8 +113,8 @@ const UserProfile = () =>
 						</div>
 						<div className="follow">
 							<span className="posts"><span className="number">{userPosts.length}</span> posts</span>
-							<span className="followers" onClick={() => setIsFollowersListWindowOpen(true)}><span className="number">{userInfo.followers.length}</span> followers</span>
-							<span className="following" onClick={() => setIsFollowingListWindowOpen(true)}><span className="number">{userInfo.following.length}</span> following</span>
+							<span className="followers" onClick={() => setIsFollowersListWindowOpen(true)}><span className="number">{userFollows.followers.length}</span> followers</span>
+							<span className="following" onClick={() => setIsFollowingListWindowOpen(true)}><span className="number">{userFollows.following.length}</span> following</span>
 						</div>
 						<div className="bio">
 							<span className="real-name">{userInfo.realName}</span>

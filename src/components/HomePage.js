@@ -1,4 +1,4 @@
-import { collectionGroup, getDocs, query, where } from "@firebase/firestore";
+import { collectionGroup, doc, getDoc, getDocs, query, where } from "@firebase/firestore";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
@@ -31,15 +31,18 @@ const HomePage = () =>
 	useEffect(() => document.title = "Instadicey", []);
 	useEffect(() =>
 	{
-		if (!currentUser) return;
 		const getPosts = async () =>
 		{
+			if (!currentUser) return;
 			dispatch(startLoading());
-			if (currentUser.following.length > 0)
+			const currentUserFollowing = await getDoc(doc(db, "users", currentUser.uid, "user_follows", "following"))
+				.then(doc => doc.data())
+				.then(data => data ? data.following : []);
+			if (currentUserFollowing.length > 0)
 			{
 				const maximumDate = new Date(new Date().getTime() - (3 * 24 * 60 * 60 * 1000));
 				setMaxDate(maximumDate);
-				const q = query(collectionGroup(db, "user_posts"), where("user", "in", currentUser.following), where("timestamp", ">=", maximumDate));
+				const q = query(collectionGroup(db, "user_posts"), where("user", "in", currentUserFollowing), where("timestamp", ">=", maximumDate));
 				let posts = await getDocs(q).then(querySnapshot => querySnapshot.docs.map(doc => doc.data()));
 				posts = posts.sort((a, b) => a.timestamp.seconds < b.timestamp.seconds ? 1 : -1);
 				setPostsToDisplay(posts);
@@ -51,13 +54,15 @@ const HomePage = () =>
 
 	useEffect(() =>
 	{
-		if (scroll < 75 || olderPosts) return;
+		if (scroll < 75 || !maxDate || olderPosts) return;
 
 		const getOlderPosts = async () =>
 		{
-			if (currentUser.following.length > 0)
+			const currentUserFollowing = await getDoc(doc(db, "users", currentUser.uid, "user_follows", "following")).then(doc => doc.data().following);
+			console.log(currentUserFollowing.length > 0);
+			if (currentUserFollowing.length > 0)
 			{
-				const q = query(collectionGroup(db, "user_posts"), where("user", "in", currentUser.following), where("timestamp", "<=", maxDate));
+				const q = query(collectionGroup(db, "user_posts"), where("user", "in", currentUserFollowing), where("timestamp", "<=", maxDate));
 				let posts = await getDocs(q).then(querySnapshot => querySnapshot.docs.map(doc => doc.data()));
 				posts = posts.sort((a, b) => a.timestamp.seconds < b.timestamp.seconds ? 1 : -1);
 				setOlderPosts(posts);
@@ -65,7 +70,7 @@ const HomePage = () =>
 		};
 		getOlderPosts();
 	// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [scroll, currentUser.following]);
+	}, [scroll, currentUser, maxDate]);
 
 	useEffect(() =>
 	{
