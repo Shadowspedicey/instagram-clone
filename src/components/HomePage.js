@@ -86,13 +86,13 @@ const HomePage = () =>
 	if (!postsToDisplay) return null;
 	return(
 		<div className="home-page">
-			{ (left && !smallScreenQuery) &&
+			{/* { (left && !smallScreenQuery) &&
 				<div className="sidebar" style={{left}}>
 					<div style={{display: "flex", alignItems: "center"}}>
 						<Link to={`/${currentUser.username}`}><div className="profile-pic" style={{width: 50, height: 50}}><img src={currentUser.profilePic} alt={`${currentUser.username}'s profile pic`}></img></div></Link>
 						<Link to={`/${currentUser.username}`} className="username">{currentUser.username}</Link>
 					</div>
-				</div>
+				</div> */
 			}
 			{
 				postsToDisplay &&
