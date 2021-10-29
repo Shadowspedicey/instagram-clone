@@ -2,7 +2,6 @@ import { collectionGroup, doc, getDoc, getDocs, query, where } from "@firebase/f
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
-import { Link } from "react-router-dom";
 import { db } from "../firebase";
 import { startLoading, stopLoading } from "../state/actions/isLoading";
 import PostWindow from "./Posts/PostWindow";
