@@ -139,7 +139,7 @@ const UserProfile = () =>
 					</div>
 				</Route>
 				<Route exact path="/:username/saved">
-					<div className="posts-cards-container">
+					<div className="post-cards-container">
 						{ currentUser.user.uid === userInfo.uid &&
 							userInfo.saved.map(post =>
 								<PostCard postID={post} key={post}/>)
