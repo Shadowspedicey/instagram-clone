@@ -59,6 +59,10 @@ const Inbox = () =>
 		try
 		{
 			const currentUserFollows = await getDocs(collection(db, "users", currentUser.user.uid, "user_follows")).then(querySnapshot => Object.assign({}, ...querySnapshot.docs.map(doc => doc.data())));
+			if (!currentUserFollows.following)
+				currentUserFollows.following = [];
+			if (!currentUserFollows.followers)
+				currentUserFollows.followers = [];
 			setCurrentUserFollows(currentUserFollows);
 		} catch (err)
 		{
