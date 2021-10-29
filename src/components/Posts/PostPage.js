@@ -46,7 +46,7 @@ const PostPage = () =>
 	{
 		const q = query(collection(db, `users/${postData.user}/user_posts`), where("id", "!=", postData.id), limit(6));
 		const morePosts = await getDocs(q).then(querySnapshot => querySnapshot.docs.map(doc => doc.data()).sort((a, b) => a.timestamp.seconds < b.timestamp.seconds ? 1 : -1));
-		console.log(morePosts);
+		console.error(morePosts);
 		setMorePosts(morePosts);
 	};
 

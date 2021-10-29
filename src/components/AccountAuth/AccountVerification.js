@@ -34,7 +34,7 @@ const AccountVerification = () =>
 			});
 		} catch (err)
 		{
-			console.log(err);
+			console.error(err);
 			setStatus({
 				type: "email-verification",
 				ok: false,
@@ -62,7 +62,7 @@ const AccountVerification = () =>
 			});
 		} catch (err)
 		{
-			console.log("error with confirming password", err);
+			console.error("error with confirming password", err);
 			setStatus({
 				type: "password-reset",
 				ok: false,
@@ -78,7 +78,7 @@ const AccountVerification = () =>
 			setPasswordResetEmail(email);
 		} catch (err)
 		{
-			console.log("Invalid code", err);
+			console.error("Invalid code", err);
 			setStatus({
 				type: "password-reset",
 				ok: false,

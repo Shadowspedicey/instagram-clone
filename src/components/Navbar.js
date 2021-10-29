@@ -156,7 +156,7 @@ const Searchbar = () =>
 			updateDoc(doc(db, "users", currentUser.user.uid), {recentSearches: []});
 		} catch (err)
 		{
-			console.log(err);
+			console.error(err);
 			dispatch(setSnackbar("Oops, try again later.", "error"));
 		}
 	};
@@ -197,7 +197,6 @@ const Searchbar = () =>
 
 	const handleElementClick = uid =>
 	{
-		console.log("a7a");
 		setOpen(false);
 		setInputValue("");
 		addToRecentSearches(uid);

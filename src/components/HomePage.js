@@ -58,7 +58,6 @@ const HomePage = () =>
 		const getOlderPosts = async () =>
 		{
 			const currentUserFollowing = await getDoc(doc(db, "users", currentUser.uid, "user_follows", "following")).then(doc => doc.data().following);
-			console.log(currentUserFollowing.length > 0);
 			if (currentUserFollowing.length > 0)
 			{
 				const q = query(collectionGroup(db, "user_posts"), where("user", "in", currentUserFollowing), where("timestamp", "<=", maxDate));

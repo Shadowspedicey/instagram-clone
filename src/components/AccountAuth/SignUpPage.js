@@ -55,7 +55,7 @@ const SignUpPage = () =>
 			const usersRef = collection(db, "users");
 			const q = query(usersRef, where("username", "==", _username));
 			const querySnapshot = await getDocs(q);
-			console.log(querySnapshot.docs.length);
+			console.error(querySnapshot.docs.length);
 			if (querySnapshot.docs.length !== 0)
 			{
 				setErrorMsg("Username already taken");
