@@ -1,5 +1,9 @@
+import { useEffect } from "react";
+
 const BrokenPage = () =>
 {
+	useEffect(() => document.title = "Page Not Found • Instadicey", []);
+
 	return(
 		<div id="broken-page">
 			<h1>Sorry, this page isn't available.</h1>
