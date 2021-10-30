@@ -1,10 +1,10 @@
-import { collection, doc, getDoc, getDocs, onSnapshot, orderBy, query, serverTimestamp, setDoc, updateDoc } from "@firebase/firestore";
-import { nanoid } from "nanoid";
 import { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { db } from "../../firebase";
+import { collection, doc, getDoc, getDocs, onSnapshot, orderBy, query, serverTimestamp, setDoc, updateDoc } from "@firebase/firestore";
+import { nanoid } from "nanoid";
 import Message from "./Message";
 
 const Room = ({roomID}) =>

@@ -1,8 +1,8 @@
-import { doc, getDoc, setDoc } from "@firebase/firestore";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { db } from "../firebase";
+import { doc, getDoc, setDoc } from "@firebase/firestore";
 import FollowButton from "./FollowButton";
 import VerifiedTick from "./VerifiedTick";
 

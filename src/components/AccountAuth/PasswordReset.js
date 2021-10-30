@@ -1,11 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { auth } from "../../firebase";
 import { sendPasswordResetEmail } from "@firebase/auth";
 import ErrorMsg from "./ErrorMsg";
 import Lock from "../../assets/misc/lock.png";
 import greenCheckmark from "../../assets/misc/green-checkmark.png";
-import { useSelector } from "react-redux";
 
 const PasswordReset = () =>
 {

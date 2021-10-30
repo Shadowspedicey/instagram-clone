@@ -1,8 +1,8 @@
-import { collectionGroup, doc, getDoc, getDocs, query, where } from "@firebase/firestore";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useMediaQuery } from "react-responsive";
+//import { useMediaQuery } from "react-responsive";
 import { db } from "../firebase";
+import { collectionGroup, doc, getDoc, getDocs, query, where } from "@firebase/firestore";
 import { startLoading, stopLoading } from "../state/actions/isLoading";
 import PostWindow from "./Posts/PostWindow";
 
@@ -15,9 +15,9 @@ const HomePage = () =>
 	const [scroll, setScroll] = useState(0);
 	const [olderPosts, setOlderPosts] = useState(null);
 	const [postsToDisplay, setPostsToDisplay] = useState(null);
-	const [left, setLeft] = useState(null);
-	const setNewLeft = () => postsRef.current ? setLeft(parseInt(window.getComputedStyle(postsRef.current).marginLeft) + parseInt(window.getComputedStyle(postsRef.current).width)) : null;
-	const smallScreenQuery = useMediaQuery({query: "(max-width: 1024px)"});
+	//const [left, setLeft] = useState(null);
+	//const setNewLeft = () => postsRef.current ? setLeft(parseInt(window.getComputedStyle(postsRef.current).marginLeft) + parseInt(window.getComputedStyle(postsRef.current).width)) : null;
+	//const smallScreenQuery = useMediaQuery({query: "(max-width: 1024px)"});
 
 	const handleScroll = () =>
 	{
@@ -73,11 +73,11 @@ const HomePage = () =>
 	useEffect(() =>
 	{
 		window.addEventListener("scroll", handleScroll);
-		window.addEventListener("resize", setNewLeft);
+		//window.addEventListener("resize", setNewLeft);
 		return () =>
 		{
 			window.removeEventListener("scroll", handleScroll);
-			window.removeEventListener("resize", setNewLeft);
+			//window.removeEventListener("resize", setNewLeft);
 		};
 	}, [postsRef]);
 
@@ -94,7 +94,7 @@ const HomePage = () =>
 			}
 			{
 				postsToDisplay &&
-				<div className="posts" ref={postsRef} onLoad={setNewLeft}>
+				<div className="posts" ref={postsRef}>
 					{
 						postsToDisplay.map(post =>
 							<PostWindow postID={post.id} isVertical key={post.id}/>)
@@ -102,7 +102,7 @@ const HomePage = () =>
 				</div>
 			}
 			{ olderPosts &&
-					<div className="older-posts posts" ref={postsRef} onLoad={setNewLeft}>
+					<div className="older-posts posts" ref={postsRef}>
 						<h2>Showing posts older than 3 days</h2>
 						{
 							olderPosts.map(post =>

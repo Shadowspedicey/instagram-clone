@@ -1,7 +1,7 @@
-import { arrayRemove, arrayUnion, doc, updateDoc } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { db } from "../../firebase";
+import { arrayRemove, arrayUnion, doc, updateDoc } from "@firebase/firestore";
 import { setSnackbar } from "../../state/actions/snackbar";
 
 const Like = ({size = 25, target, postPath, isComment}) =>

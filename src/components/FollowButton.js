@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { doc, setDoc, getDoc, runTransaction } from "@firebase/firestore";
 import { db } from "../firebase";
-import Loading from "../assets/misc/loading.jpg";
+import { doc, setDoc, getDoc, runTransaction } from "@firebase/firestore";
 import { setSnackbar } from "../state/actions/snackbar";
+import Loading from "../assets/misc/loading.jpg";
 
 const FollowButton = ({ target }) =>
 {

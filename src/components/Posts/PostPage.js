@@ -5,8 +5,9 @@ import { db } from "../../firebase";
 import { collection, collectionGroup, getDocs, limit, query, where } from "@firebase/firestore";
 import { startLoading, stopLoading } from "../../state/actions/isLoading";
 import PostWindow from "./PostWindow";
-import "./post-page.css";
 import PostCard from "./PostCard";
+import BrokenPage from "../BrokenPage";
+import "./post-page.css";
 
 const PostPage = () =>
 {
@@ -57,7 +58,7 @@ const PostPage = () =>
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [postID]);
 
-	if (!postExists) return null;
+	if (!postExists) return <BrokenPage/>;
 	else return(
 		<div className="post-page">
 			{

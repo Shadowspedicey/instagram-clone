@@ -1,7 +1,7 @@
-import { collection, collectionGroup, getDocs, query, where } from "@firebase/firestore";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { db } from "../../firebase";
+import { collection, collectionGroup, getDocs, query, where } from "@firebase/firestore";
 import Loading from "../../assets/misc/loading.jpg";
 
 const PostCard = ({postID}) =>

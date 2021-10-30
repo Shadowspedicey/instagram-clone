@@ -1,12 +1,13 @@
 import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { auth, db, storage } from "../../firebase";
+import { EmailAuthProvider, reauthenticateWithCredential, sendEmailVerification, updateEmail } from "@firebase/auth";
 import { collection, doc, getDoc, getDocs, query, updateDoc, where } from "@firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "@firebase/storage";
 import { setSnackbar } from "../../state/actions/snackbar";
-import Loading from "../../assets/misc/loading.jpg";
-import { EmailAuthProvider, reauthenticateWithCredential, sendEmailVerification, updateEmail } from "@firebase/auth";
 import { setUser } from "../../state/actions/currentUser";
+import LoadingPage from "../LoadingPage";
+import Loading from "../../assets/misc/loading.jpg";
 
 const EditProfile = () =>
 {
@@ -178,7 +179,7 @@ const EditProfile = () =>
 		dispatch(setUser({ user: auth.currentUser, info }));
 	};
 
-	if (!currentUser) return null;
+	if (!currentUser) return <LoadingPage/>;
 	return(
 		<div className="account-element edit-profile">
 			{ isPhotoChangerBoxOpen &&

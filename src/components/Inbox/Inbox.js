@@ -3,11 +3,12 @@ import { Route, useParams } from "react-router";
 import { NavLink, Switch } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { useSelector } from "react-redux";
-import Room from "./Room";
-import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from "@firebase/firestore";
 import { db } from "../../firebase";
+import { collection, doc, getDoc, getDocs, onSnapshot, query, where } from "@firebase/firestore";
 import { formatDistanceToNowStrict, fromUnixTime } from "date-fns";
+import Room from "./Room";
 import FollowWindow from "../FollowWindow";
+import LoadingPage from "../LoadingPage";
 import "./inbox.css";
 
 const Inbox = () =>
@@ -97,7 +98,7 @@ const Inbox = () =>
 		return () => unsubscribe();
 	}, [currentUser]);
 
-	if (!currentUser || !recentChats) return null;
+	if (!currentUser || !recentChats) return <LoadingPage/>;
 	if (phoneQuery)
 		return(
 			<div className="inbox-window outlined">

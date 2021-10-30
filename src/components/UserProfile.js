@@ -1,15 +1,17 @@
-import { collection, getDocs, query, where } from "@firebase/firestore";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Route, Switch, useParams } from "react-router";
 import { Link, NavLink } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { db } from "../firebase";
+import { collection, getDocs, query, where } from "@firebase/firestore";
 import { startLoading, stopLoading } from "../state/actions/isLoading";
+import BrokenPage from "./BrokenPage";
 import FollowButton from "./FollowButton";
 import FollowWindow from "./FollowWindow";
+import LoadingPage from "./LoadingPage";
 import PostCard from "./Posts/PostCard";
-import "./user-profile.css";
 import VerifiedTick from "./VerifiedTick";
+import "./user-profile.css";
 
 const UserProfile = () =>
 {
@@ -59,24 +61,30 @@ const UserProfile = () =>
 		setUserPosts(posts);
 	};
 
+	const fetchUserInfo = async () =>
+	{
+		const querySnapshot = await getUserInfo();
+		if (querySnapshot.size === 0) return setUserInfo(false);
+
+		const userData = querySnapshot.docs[0].data();
+		if (querySnapshot.size === 1) setUserInfo(userData);
+
+		await getUsersPosts(userData.uid);
+
+		await getUsersFollows(userData.uid);
+	};
+
 	useEffect(() =>
 	{
 		closeFollowListWindow();
 
-		const fetchUserInfo = async () =>
+		const getData = async () =>
 		{
 			dispatch(startLoading());
-			const querySnapshot = await getUserInfo();
-			const userData = querySnapshot.docs[0].data();
-			if (querySnapshot.size === 1) setUserInfo(userData);
-			else setUserInfo(null);
-
-			await getUsersPosts(userData.uid);
-
-			await getUsersFollows(userData.uid);
+			await fetchUserInfo();
 			dispatch(stopLoading());
 		};
-		fetchUserInfo();
+		getData();
 	// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [username]);
 	
@@ -88,7 +96,8 @@ const UserProfile = () =>
 			: document.title = `@${userInfo.username} • Instadicey`;
 	}, [userInfo]);
 
-	if (!userInfo || !currentUser || !userFollows) return <div>not found</div>;
+	if (userInfo === false) return <BrokenPage/>;
+	else if (!userInfo || !currentUser || !userFollows) return <LoadingPage/>;
 	else return(
 		<div className="user-profile">
 			{ isFollowingListWindowOpen

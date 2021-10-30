@@ -1,9 +1,9 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { db } from "../../firebase";
 import { deleteDoc, doc, getDoc } from "@firebase/firestore";
 import { format, formatDistanceToNowStrict, fromUnixTime } from "date-fns";
-import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { db } from "../../firebase";
 import VerifiedTick from "../VerifiedTick";
 import Like from "./Like";
 

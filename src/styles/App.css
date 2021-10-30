@@ -528,6 +528,23 @@
 	transform: rotateY(180deg);
 }
 
+#broken-page
+{
+	text-align: center;
+	margin: 2.5rem 0;
+}
+#broken-page h1
+{
+	font-size: 1.75em;
+	font-weight: 500;
+	margin-bottom: 1rem;
+}
+#broken-page h2
+{
+	font-weight: normal;
+	font-size: 1.25em;
+}
+
 .snackbar
 {
 	z-index: 99999999999999 !important;

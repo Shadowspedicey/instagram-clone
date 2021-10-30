@@ -1,10 +1,11 @@
-import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "@firebase/auth";
 import { useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Loading from "../../assets/misc/loading.jpg";
+import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../../firebase";
+import { EmailAuthProvider, reauthenticateWithCredential, updatePassword } from "@firebase/auth";
+import LoadingPage from "../LoadingPage";
 import { setSnackbar } from "../../state/actions/snackbar";
+import Loading from "../../assets/misc/loading.jpg";
 
 const ChangePassword = () =>
 {
@@ -61,10 +62,10 @@ const ChangePassword = () =>
 		}
 	};
 
-	if (!currentUser) return null;
+	if (!currentUser) return <LoadingPage/>;
 	return(
 		<div className="account-element change-password">
-			<div className="element profile-pic">
+			<div className="element profile-pic-container">
 				<div className="img-container outlined left">
 					<img src={currentUser.info.profilePic} alt={`${currentUser.info.username}'s profile pic'`}></img>
 				</div>

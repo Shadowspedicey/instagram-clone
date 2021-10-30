@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { applyActionCode, confirmPasswordReset, verifyPasswordResetCode } from "@firebase/auth";
 import { useEffect, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { auth } from "../../firebase";
+import { applyActionCode, confirmPasswordReset, verifyPasswordResetCode } from "@firebase/auth";
 import { startLoading, stopLoading } from "../../state/actions/isLoading";
 import Logo from "../../assets/logo.png";
 import greenCheckmark from "../../assets/misc/green-checkmark.png";

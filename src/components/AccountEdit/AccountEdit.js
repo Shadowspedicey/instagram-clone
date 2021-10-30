@@ -1,10 +1,10 @@
 import { useEffect } from "react";
 import { Route, Switch, useHistory } from "react-router";
 import { NavLink } from "react-router-dom";
-import "./acc-edit.css";
+import { useMediaQuery } from "react-responsive";
 import ChangePassword from "./ChangePassword";
 import EditProfile from "./EditProfile";
-import { useMediaQuery } from "react-responsive";
+import "./acc-edit.css";
 
 const AccountEdit = () =>
 {

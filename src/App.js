@@ -5,26 +5,27 @@ import { auth, db } from "./firebase";
 import { onAuthStateChanged } from "@firebase/auth";
 import { doc, getDoc } from "@firebase/firestore";
 import { Snackbar, Slide, Alert } from "@mui/material";
-import Navbar from "./components/Navbar";
-import LoadingPage from "./components/LoadingPage";
-
 import { stopLoading } from "./state/actions/isLoading";
 import { setUser } from "./state/actions/currentUser";
 import { closeSnackbar } from "./state/actions/snackbar";
+
+import Navbar from "./components/Navbar";
+import LoadingPage from "./components/LoadingPage";
 
 import SignUpPage from "./components/AccountAuth/SignUpPage";
 import PasswordReset from "./components/AccountAuth/PasswordReset";
 import LoginPage from "./components/AccountAuth/LoginPage";
 import AccountVerification from "./components/AccountAuth/AccountVerification";
+import AccountEdit from "./components/AccountEdit/AccountEdit";
 
-import Logged from "./components/HomePage";
+import HomePage from "./components/HomePage";
 import UserProfile from "./components/UserProfile";
 import newPost from "./components/Posts/NewPost";
 import PostPage from "./components/Posts/PostPage";
 
 import Inbox from "./components/Inbox/Inbox";
 
-import AccountEdit from "./components/AccountEdit/AccountEdit";
+import BrokenPage from "./components/BrokenPage";
 import "./styles/App.css";
 
 const App = () =>
@@ -77,7 +78,7 @@ const App = () =>
 				<Route exact path="/">
 					{
 						isLoggedIn
-							? <Logged/>
+							? <HomePage/>
 							: <LoginPage/>
 					}
 				</Route>
@@ -85,7 +86,8 @@ const App = () =>
 				<Route exact path="/accounts/password-reset" component={PasswordReset}></Route>
 				<Route path="/accounts/verify" component={AccountVerification}></Route>
 				
-				<Route path="/accounts" component={AccountEdit}></Route>
+				<Route exact path="/accounts/edit" component={AccountEdit}></Route>
+				<Route exact path="/accounts/password/change" component={AccountEdit}></Route>
 
 				<Route exact path="/direct/inbox" component={Inbox}></Route>
 				<Route exact path="/direct/t/:roomID" component={Inbox}></Route>
@@ -95,6 +97,8 @@ const App = () =>
 				<Route exact path="/create/style" component={newPost}></Route>
 
 				<Route exact path="/p/:postID" component={PostPage}></Route>
+
+				<Route path="/" component={BrokenPage}/>
 			</Switch>
 
 			<Snackbar

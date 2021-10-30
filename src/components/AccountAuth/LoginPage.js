@@ -1,9 +1,9 @@
 import { useState, useRef, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { auth, db } from "../../firebase";
 import { sendEmailVerification, signInWithEmailAndPassword, signOut } from "firebase/auth";
 import { doc, getDoc } from "@firebase/firestore";
-import { useDispatch } from "react-redux";
 import { startLoading, stopLoading } from "../../state/actions/isLoading";
 import { setUser } from "../../state/actions/currentUser";
 import ErrorMsg from "./ErrorMsg";
