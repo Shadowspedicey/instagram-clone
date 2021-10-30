@@ -91,7 +91,7 @@ const LoginPage = () =>
 					<input type="password" placeholder="Password" id="password" ref={passwordRef} onChange={checkForm}></input>
 					<button id="login" className={`${isInfoValid ? null : "disabled"}`}>Log In</button>
 				</form>
-				<Link to="accounts/password-reset">Forgot password?</Link>
+				<Link to="/accounts/password-reset">Forgot password?</Link>
 			</div>
 			<div className="extra outlined"><span>Don't have an account? <Link to="/accounts/email-signup" className="button">Sign Up</Link></span></div>
 		</div>

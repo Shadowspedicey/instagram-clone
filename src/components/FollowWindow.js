@@ -98,7 +98,7 @@ const FollowWindow = props =>
 								list.map(person => 
 									<li className="person" key={person.uid}>
 										<div className="profile">
-											<Link to={`${person.username}`}><div className="profile-pic"><img src={person.profilePic} alt={`${person.username}'s Pic`}></img></div></Link>
+											<Link to={`/${person.username}`}><div className="profile-pic"><img src={person.profilePic} alt={`${person.username}'s Pic`}></img></div></Link>
 											<div className="info">
 												<div style={{display: "flex"}}><Link to={`/${person.username}`} className="username">{person.username}</Link> <VerifiedTick user={person} size={15} marginLeft={7.5}/></div>
 												<span className="real-name">{person.realName}</span>
