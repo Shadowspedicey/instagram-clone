@@ -9,6 +9,7 @@ import { formatDistanceToNowStrict, fromUnixTime } from "date-fns";
 import Room from "./Room";
 import FollowWindow from "../FollowWindow";
 import LoadingPage from "../LoadingPage";
+import SendMessage from "../../assets/misc/send-message.png";
 import "./inbox.css";
 
 const Inbox = () =>
@@ -166,7 +167,14 @@ const Inbox = () =>
 				</div>
 				<div className="chat-window right">
 					<Switch>
-						<Route exact path="/direct/inbox">Inbox</Route>
+						<Route exact path="/direct/inbox">
+							<div style={{height: "100%", display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", gap: "0.75rem"}}>
+								<div style={{height: 175}}><img src={SendMessage} alt="Send a message"/></div>
+								<span style={{fontWeight: 500, fontSize: "1.25em"}}>Your Messages</span>
+								<span style={{color: "#8e8e8e", fontSize: "0.95em"}}>Send private photos and messages to a friend or group.</span>
+								<button style={{width: "initial"}} onClick={() => setIsNewMessageBoxOpen(true)}>Send Message</button>
+							</div>
+						</Route>
 						<Route path="/direct/t/:roomID"><Room roomID={roomID}/></Route>
 					</Switch>
 				</div>
