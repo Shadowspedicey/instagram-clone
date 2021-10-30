@@ -1,5 +1,5 @@
 import { useRef, useState } from "react";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { auth, db } from "../firebase";
 import { signOut } from "@firebase/auth";
@@ -16,6 +16,7 @@ import Loading from "../assets/misc/loading.jpg";
 const Navbar = () =>
 {
 	const history = useHistory();
+	const location = useLocation();
 	const dispatch = useDispatch();
 	const addPostButton = useRef();
 	const { username, profilePic } = useSelector(state => state.currentUser.info) || "";
@@ -52,10 +53,10 @@ const Navbar = () =>
 			<div className="logo"><Link to="/"><img src={phoneQuery ? Logo : nameLogo} alt="Instadicey"></img></Link></div>
 			<li><Searchbar/></li>
 			<ul>
-				<li><button className="add-post icon" onClick={() => addPostButton.current.click()}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M24 10h-10v-10h-4v10h-10v4h10v10h4v-10h10z"/></svg></button></li>
+				<li><button className="add-post icon" onClick={() => addPostButton.current.click()}><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 2v9h9v2h-9v9h-2v-9h-9v-2h9v-9h2zm2-2h-6v9h-9v6h9v9h6v-9h9v-6h-9v-9z"/></svg></button></li>
 				<input accept="image/png, image/jpg, image/jpeg, image/pjpeg, image/jfif, image/pjp" type="file" ref={addPostButton} onChange={handleNewPostChange}></input>
-				<li><Link to="/" className="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M21 13v10h-6v-6h-6v6h-6v-10h-3l12-12 12 12h-3zm-1-5.907v-5.093h-3v2.093l3 3z"/></svg></Link></li>
-				<li><Link to="/direct/inbox" className="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 12.713l-11.985-9.713h23.97l-11.985 9.713zm0 2.574l-12-9.725v15.438h24v-15.438l-12 9.725z"/></svg></Link></li>
+				<li><Link to="/" className="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">{location.pathname === "/" ? <path d="M21 13v10h-6v-6h-6v6h-6v-10h-3l12-12 12 12h-3zm-1-5.907v-5.093h-3v2.093l3 3z"/> : <path d="M20 7.093v-5.093h-3v2.093l3 3zm4 5.907l-12-12-12 12h3v10h7v-5h4v5h7v-10h3zm-5 8h-3v-5h-8v5h-3v-10.26l7-6.912 7 6.99v10.182z"/>}</svg></Link></li>
+				<li><Link to="/direct/inbox" className="icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">{location.pathname.includes("/direct/") ? <path d="M12 12.713l-11.985-9.713h23.97l-11.985 9.713zm0 2.574l-12-9.725v15.438h24v-15.438l-12 9.725z"/> : <path d="M0 3v18h24v-18h-24zm21.518 2l-9.518 7.713-9.518-7.713h19.036zm-19.518 14v-11.817l10 8.104 10-8.104v11.817h-20z"/>}</svg></Link></li>
 				<li className="profile" onClick={openDropdown}>
 					<div className="icon"><img src={profilePic} alt="Profile Pic"></img></div>
 					{ isDropdownOpen &&
